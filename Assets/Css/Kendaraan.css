@@ -1,0 +1,510 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f1ed;
+    color: #333;
+    min-height: 100vh;
+}
+
+.container {
+    width: 94%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 0 50px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: #8B5A2B;
+    color: white;
+
+    min-height: 70px;
+    padding: 15px 25px;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 22px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.user-info span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+/* =========================
+   TOMBOL KEMBALI
+========================= */
+
+.btn-kembali {
+    background: white;
+    color: #8B5A2B;
+
+    text-decoration: none;
+
+    padding: 9px 16px;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.btn-kembali:hover {
+    background: #fcecec;
+}
+
+
+/* =========================
+   TOTAL KENDARAAN
+========================= */
+
+.total-card {
+    background: white;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    margin-bottom: 25px;
+
+    text-align: center;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.total-card h2 {
+    color: #6b3f1f;
+
+    font-size: 20px;
+
+    margin-bottom: 10px;
+}
+
+.total-angka {
+    font-size: 38px;
+
+    font-weight: bold;
+
+    color: #8B5A2B;
+}
+
+
+/* =========================
+   CARD TABEL
+========================= */
+
+.card {
+    background: white;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================
+   JUDUL TABEL
+========================= */
+
+.judul-tabel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 22px;
+}
+
+.judul-tabel h2 {
+    font-size: 20px;
+    color: #333;
+}
+
+
+/* =========================
+   TOMBOL TAMBAH
+========================= */
+
+.btn-tambah {
+    background: #8B5A2B;
+    color: white;
+
+    text-decoration: none;
+
+    padding: 11px 17px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    display: inline-block;
+}
+
+.btn-tambah:hover {
+    background: #6b3f1f;
+}
+
+
+/* =========================
+   TABEL
+========================= */
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 14px;
+}
+
+thead {
+    background: #fcecec;
+}
+
+th {
+    padding: 14px 12px;
+
+    text-align: left;
+
+    color: #6b3f1f;
+
+    font-weight: bold;
+
+    border-bottom: 2px solid #ead6d6;
+}
+
+td {
+    padding: 14px 12px;
+
+    border-bottom: 1px solid #eeeeee;
+
+    color: #444;
+}
+
+tbody tr {
+    transition: 0.15s;
+}
+
+tbody tr:hover {
+    background: #fffafa;
+}
+
+
+/* Nomor */
+
+th:first-child,
+td:first-child {
+    width: 60px;
+
+    text-align: center;
+}
+
+
+/* Plat nomor */
+
+td:nth-child(2) {
+    font-weight: bold;
+
+    color: #6b3f1f;
+}
+
+
+/* =========================
+   TOMBOL EDIT & HAPUS
+========================= */
+
+.btn-edit,
+.btn-hapus {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    border-radius: 6px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    margin-right: 5px;
+}
+
+.btn-edit {
+    background: #fff0d9;
+
+    color: #9a5b00;
+}
+
+.btn-edit:hover {
+    background: #ffe2b3;
+}
+
+.btn-hapus {
+    background: #ffe5e5;
+
+    color: #c0392b;
+}
+
+.btn-hapus:hover {
+    background: #ffd0d0;
+}
+
+
+/* =========================
+   DATA KOSONG
+========================= */
+
+.kosong {
+    text-align: center;
+
+    padding: 30px;
+
+    color: #888;
+}
+
+
+/* =========================
+   FORM TAMBAH / EDIT
+========================= */
+
+.form-card {
+    width: 90%;
+
+    max-width: 750px;
+
+    margin: 40px auto;
+
+    padding: 40px;
+}
+
+.form-card h2 {
+    margin-bottom: 30px;
+
+    color: #6b3f1f;
+
+    font-size: 25px;
+}
+
+.form-card label {
+    display: block;
+
+    margin-top: 18px;
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
+
+    font-size: 15px;
+}
+
+.form-card input,
+.form-card select {
+    width: 100%;
+
+    padding: 15px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    background: white;
+}
+
+.form-card input:focus,
+.form-card select:focus {
+    outline: none;
+
+    border-color: #8B5A2B;
+}
+
+
+/* =========================
+   TOMBOL FORM
+========================= */
+
+.form-button {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 30px;
+}
+
+.btn-simpan {
+    border: none;
+
+    background: #8B5A2B;
+
+    color: white;
+
+    padding: 12px 20px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+.btn-simpan:hover {
+    background: #6b3f1f;
+}
+
+
+/* =========================
+   RESPONSIVE HP
+========================= */
+
+@media (max-width: 700px) {
+
+    .container {
+        width: 92%;
+
+        padding: 20px 0 40px;
+    }
+
+
+    /* HEADER */
+
+    .header {
+        padding: 18px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+    .header h1 {
+        font-size: 19px;
+    }
+
+    .user-info {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+
+    /* TOTAL */
+
+    .total-card {
+        padding: 25px 20px;
+    }
+
+
+    /* TABEL */
+
+    .card {
+        padding: 15px;
+
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 700px;
+    }
+
+
+    /* JUDUL TABEL */
+
+    .judul-tabel {
+        gap: 15px;
+    }
+
+    .judul-tabel h2 {
+        font-size: 18px;
+    }
+
+
+    /* FORM */
+
+    .form-card {
+        width: 100%;
+
+        max-width: 650px;
+
+        margin: 25px auto;
+
+        padding: 30px 25px;
+    }
+
+    .form-card h2 {
+        font-size: 23px;
+    }
+
+    .form-card input,
+    .form-card select {
+        padding: 14px;
+
+        font-size: 15px;
+    }
+
+
+    /* TOMBOL FORM */
+
+    .form-button {
+        margin-top: 30px;
+    }
+
+    .btn-simpan,
+    .btn-kembali {
+        padding: 11px 18px;
+    }
+
+}
+/* =========================
+   POSISI FORM DI TENGAH
+========================= */
+
+.form-page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px 0;
+}
+
+.form-page .form-card {
+    margin: 0 auto;
+}
