@@ -49,7 +49,7 @@ $data = mysqli_fetch_assoc($hasil);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
 
@@ -57,32 +57,29 @@ $data = mysqli_fetch_assoc($hasil);
 
     <title>Edit Kendaraan</title>
 
-    <link rel="stylesheet" href="../Assets/Css/Kendaraan.css">
+    <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=101">
 
 </head>
 
 <body>
 
-<div class="container form-page">
+<div class="container">
 
-    <div class="card form-card">
+    <div class="card">
 
         <h2>Edit Kendaraan</h2>
 
         <form
             action="../Controllers/Edit_KendaraanController.php"
-            method="POST">
-
-
-            <!-- ID KENDARAAN -->
+            method="POST"
+        >
 
             <input
                 type="hidden"
                 name="id_kendaraan"
-                value="<?php echo $data['Id_kendaraan']; ?>">
+                value="<?php echo $data['Id_kendaraan']; ?>"
+            >
 
-
-            <!-- PLAT NOMOR -->
 
             <label>Plat Nomor</label>
 
@@ -90,10 +87,9 @@ $data = mysqli_fetch_assoc($hasil);
                 type="text"
                 name="plat_nomor"
                 value="<?php echo htmlspecialchars($data['Plat_nomor']); ?>"
-                required>
+                required
+            >
 
-
-            <!-- JENIS -->
 
             <label>Jenis Kendaraan</label>
 
@@ -103,20 +99,28 @@ $data = mysqli_fetch_assoc($hasil);
 
                 <option
                     value="Motor"
-                    <?php echo ($data['Jenis_kendaraan'] == 'Motor') ? 'selected' : ''; ?>>
+                    <?php
+                    echo ($data['Jenis_kendaraan'] == 'Motor')
+                        ? 'selected'
+                        : '';
+                    ?>
+                >
                     Motor
                 </option>
 
                 <option
                     value="Mobil"
-                    <?php echo ($data['Jenis_kendaraan'] == 'Mobil') ? 'selected' : ''; ?>>
+                    <?php
+                    echo ($data['Jenis_kendaraan'] == 'Mobil')
+                        ? 'selected'
+                        : '';
+                    ?>
+                >
                     Mobil
                 </option>
 
             </select>
 
-
-            <!-- WARNA -->
 
             <label>Warna</label>
 
@@ -124,10 +128,9 @@ $data = mysqli_fetch_assoc($hasil);
                 type="text"
                 name="warna"
                 value="<?php echo htmlspecialchars($data['Warna']); ?>"
-                required>
+                required
+            >
 
-
-            <!-- PEMILIK -->
 
             <label>Pemilik</label>
 
@@ -135,23 +138,24 @@ $data = mysqli_fetch_assoc($hasil);
                 type="text"
                 name="pemilik"
                 value="<?php echo htmlspecialchars($data['Pemilik']); ?>"
-                required>
+                required
+            >
 
 
-            <!-- TOMBOL -->
+            <div class="form-buttons">
 
-            <div class="form-button">
+                <button type="submit">
+                    Simpan
+                </button>
 
-                <a href="Kendaraan.php" class="btn-kembali">
+                <a
+                    href="Kendaraan.php"
+                    class="btn-batal"
+                >
                     Batal
                 </a>
 
-                <button type="submit" class="btn-simpan">
-                    Simpan Perubahan
-                </button>
-
             </div>
-
 
         </form>
 

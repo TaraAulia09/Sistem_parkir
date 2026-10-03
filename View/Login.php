@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Parkir</title>
-    <link rel="stylesheet" href="../Assets/Css/Login.css">
+    <link rel="stylesheet" href="../Assets/Css/Login.css?v=1">
 </head>
 
 <body>

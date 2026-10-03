@@ -1,0 +1,325 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #eefaff;
+    color: #333;
+}
+
+/* ================= CONTAINER ================= */
+
+.transaksi-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    padding: 25px;
+}
+
+/* ================= HEADER ================= */
+
+.transaksi-header {
+    background: linear-gradient(135deg, #269bc5, #55c9e8);
+    color: white;
+    padding: 22px 28px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 20px rgba(38, 155, 197, 0.18);
+}
+
+.transaksi-header h1 {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.transaksi-header p {
+    font-size: 15px;
+    opacity: 0.95;
+}
+
+.header-kanan {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.header-kanan span {
+    font-weight: bold;
+}
+
+.btn-kembali,
+.btn-keluar {
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-kembali {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-keluar {
+    background: #e85b5b;
+}
+
+.btn-kembali:hover,
+.btn-keluar:hover {
+    opacity: 0.9;
+}
+
+/* ================= JUDUL ================= */
+
+.judul-halaman {
+    margin-bottom: 20px;
+}
+
+.judul-halaman h2 {
+    color: #167da5;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.judul-halaman p {
+    color: #6d7d84;
+    font-size: 14px;
+}
+
+/* ================= PESAN ================= */
+
+.pesan {
+    background: #dff6ff;
+    color: #167da5;
+    border: 1px solid #b9e8f7;
+    padding: 13px 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ================= CARD ================= */
+
+.form-card,
+.table-card {
+    background: white;
+    border: 1px solid #d8f3fc;
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 18px rgba(38, 155, 197, 0.08);
+}
+
+.card-title {
+    margin-bottom: 22px;
+}
+
+.card-title h2 {
+    color: #167da5;
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.card-title p {
+    color: #7b8b91;
+    font-size: 14px;
+}
+
+/* ================= FORM ================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #40545c;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cfe5ed;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: #fbfeff;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #269bc5;
+    box-shadow: 0 0 0 3px rgba(38, 155, 197, 0.1);
+}
+
+.form-action {
+    margin-top: 22px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-simpan {
+    border: none;
+    background: #269bc5;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-simpan:hover {
+    background: #167da5;
+}
+
+/* ================= TABLE ================= */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #e9f8fd;
+}
+
+th {
+    color: #167da5;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 14px 12px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #edf3f5;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+tbody tr:hover {
+    background: #f8fdff;
+}
+
+/* ================= STATUS ================= */
+
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status.masuk {
+    background: #fff3cd;
+    color: #997404;
+}
+
+.status.keluar {
+    background: #d9f7e5;
+    color: #237a45;
+}
+
+/* ================= TOMBOL AKSI ================= */
+
+.btn-keluar-kendaraan {
+    display: inline-block;
+    text-decoration: none;
+    background: #269bc5;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.btn-keluar-kendaraan:hover {
+    background: #167da5;
+}
+
+.selesai {
+    color: #237a45;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.data-kosong {
+    text-align: center;
+    padding: 25px !important;
+    color: #7b8b91;
+}
+
+/* ================= RESPONSIVE HP ================= */
+
+@media (max-width: 800px) {
+
+    .transaksi-container {
+        padding: 15px;
+    }
+
+    .transaksi-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .transaksi-header h1 {
+        font-size: 21px;
+    }
+
+    .header-kanan {
+        width: 100%;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-card,
+    .table-card {
+        padding: 18px;
+    }
+
+    .form-action {
+        justify-content: stretch;
+    }
+
+    .btn-simpan {
+        width: 100%;
+    }
+
+    .judul-halaman h2 {
+        font-size: 21px;
+    }
+}

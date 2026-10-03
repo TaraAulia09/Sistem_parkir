@@ -57,28 +57,41 @@ class KendaraanModel
     // =========================
 
     public function tambah(
+    $id_user,
+    $plat_nomor,
+    $jenis_kendaraan,
+    $warna,
+    $pemilik
+) {
+    $query = mysqli_prepare(
+        $this->koneksi,
+        "INSERT INTO Tabel_kendaraan
+        (Id_user, Plat_nomor, Jenis_kendaraan, Warna, Pemilik)
+        VALUES (?, ?, ?, ?, ?)"
+    );
+
+    if (!$query) {
+        die("Prepare gagal: " . mysqli_error($this->koneksi));
+    }
+
+    mysqli_stmt_bind_param(
+        $query,
+        "issss",
+        $id_user,
         $plat_nomor,
         $jenis_kendaraan,
         $warna,
         $pemilik
-    ) {
-        $query = mysqli_prepare(
-            $this->koneksi,
-            "INSERT INTO Tabel_kendaraan
-            (Plat_nomor, Jenis_kendaraan, Warna, Pemilik)
-            VALUES (?, ?, ?, ?)"
-        );
+    );
 
-        mysqli_stmt_bind_param(
-            $query,
-            "ssss",
-            $plat_nomor,
-            $jenis_kendaraan,
-            $warna,
-            $pemilik
+    if (!mysqli_stmt_execute($query)) {
+        die(
+            "Gagal menambahkan kendaraan: " .
+            mysqli_stmt_error($query)
         );
+    }
 
-        return mysqli_stmt_execute($query);
+    return true;
     }
 
 

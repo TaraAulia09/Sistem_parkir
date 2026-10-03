@@ -22,12 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Simpan data
     $query = mysqli_query(
-        $koneksi,
-        "INSERT INTO Tabel_user
-        (Nama_lengkap, Username, Password, Role)
-        VALUES
-        ('$nama_lengkap', '$username', '$password', '$role')"
-    );
+    $koneksi,
+    "INSERT INTO Tabel_user
+    (Nama_lengkap, Username, Password, Role, Status_aktif)
+    VALUES
+    ('$nama_lengkap', '$username', '$password', '$role', 1)"
+);
 
     if ($query) {
         header("Location: ../View/Login.php?pesan=Registrasi berhasil");

@@ -1,4 +1,6 @@
 <?php
-header("Location: View/Login.php");
+
+header("Location: View/Register.php");
 exit;
+
 ?>

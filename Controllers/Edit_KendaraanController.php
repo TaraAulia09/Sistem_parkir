@@ -13,8 +13,14 @@ if (
 require_once __DIR__ . '/../Config/Koneksi.php';
 
 
-// Ambil data dari form
+// Pastikan data dikirim dari form
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    header("Location: ../View/Kendaraan.php");
+    exit;
+}
 
+
+// Ambil data dari form
 $id_kendaraan = $_POST['id_kendaraan'];
 $plat_nomor = $_POST['plat_nomor'];
 $jenis_kendaraan = $_POST['jenis_kendaraan'];
@@ -22,32 +28,20 @@ $warna = $_POST['warna'];
 $pemilik = $_POST['pemilik'];
 
 
-// Update data
-
-$query = mysqli_prepare(
+// Update data kendaraan
+$ubah = mysqli_query(
     $koneksi,
     "UPDATE Tabel_kendaraan
      SET
-        Plat_nomor = ?,
-        Jenis_kendaraan = ?,
-        Warna = ?,
-        Pemilik = ?
-     WHERE Id_kendaraan = ?"
+        Plat_nomor = '$plat_nomor',
+        Jenis_kendaraan = '$jenis_kendaraan',
+        Warna = '$warna',
+        Pemilik = '$pemilik'
+     WHERE Id_kendaraan = '$id_kendaraan'"
 );
 
 
-mysqli_stmt_bind_param(
-    $query,
-    "ssssi",
-    $plat_nomor,
-    $jenis_kendaraan,
-    $warna,
-    $pemilik,
-    $id_kendaraan
-);
-
-
-if (mysqli_stmt_execute($query)) {
+if ($ubah) {
 
     header("Location: ../View/Kendaraan.php");
     exit;
@@ -55,8 +49,8 @@ if (mysqli_stmt_execute($query)) {
 } else {
 
     die(
-        "Gagal mengubah data kendaraan: " .
-        mysqli_error($koneksi)
+        "Gagal mengubah kendaraan: "
+        . mysqli_error($koneksi)
     );
 
 }

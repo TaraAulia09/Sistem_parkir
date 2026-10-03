@@ -23,22 +23,21 @@ if (strtolower($_SESSION['role']) != 'admin') {
 
     <title>Tambah Kendaraan</title>
 
-    <link rel="stylesheet" href="../Assets/Css/Kendaraan.css">
+    <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=2">
 
 </head>
 
 <body>
 
-<div class="container form-page">
+<div class="container kendaraan-page">
 
-    <div class="card form-card">
+    <div class="card kendaraan-card">
 
         <h2>Tambah Kendaraan</h2>
 
         <form
             action="../Controllers/Tambah_KendaraanController.php"
             method="POST">
-
 
             <label>Plat Nomor</label>
 
@@ -80,18 +79,17 @@ if (strtolower($_SESSION['role']) != 'admin') {
                 required>
 
 
-            <div class="form-button">
+            <div class="form-buttons">
 
-                <a href="Kendaraan.php" class="btn-kembali">
-                    Batal
-                </a>
-
-                <button type="submit" class="btn-simpan">
+                <button type="submit">
                     Simpan
                 </button>
 
-            </div>
+                <a href="Kendaraan.php" class="btn-batal">
+                    Batal
+                </a>
 
+            </div>
 
         </form>
 

@@ -1,4 +1,4 @@
-* {
+ * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -6,83 +6,220 @@
 }
 
 body {
-    background: #f5f1ed;
-    min-height: 100vh; /* ✅ TINGGI PENUH LAYAR */
-    width: 100vw;      /* ✅ LEBAR PENUH LAYAR */
+    background: linear-gradient(
+        135deg,
+        #eaf9ff,
+        #fcecf5,
+        #dff6ff
+    );
+
+    min-height: 100vh;
+    width: 100vw;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 25px; /* ✅ JARAK LUAR LUAS */
+
+    padding: 40px 25px;
 }
+
+
+/* =========================
+   LOGIN BOX
+========================= */
 
 .login-box {
-    background: white;
-    width: 100%;        /* ✅ LEBAR MAKSIMAL */
-    max-width: 650px;   /* ✅ UKURAN SAMA BESAR DENGAN DAFTAR */
-    padding: 60px 45px; /* ✅ DALAMNYA SANGAT LUAS */
+    position: relative;
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    width: 100%;
+    max-width: 650px;
+
+    padding: 60px 45px;
+
     border-radius: 22px;
-    border: 4px solid #6A1B9A; /* ✅ GARIS TEBAL */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+
+    border: 4px solid #62cbe9;
+
+    box-shadow:
+        0 10px 25px rgba(66, 188, 230, 0.20),
+        0 4px 12px rgba(240, 150, 190, 0.12);
 }
 
+
+/* =========================
+   EFEK GLOSSY
+========================= */
+
+.login-box::before {
+    content: "";
+
+    position: absolute;
+
+    top: -60%;
+    left: -20%;
+
+    width: 60%;
+    height: 200%;
+
+    background: rgba(255, 255, 255, 0.20);
+
+    transform: rotate(25deg);
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   JUDUL
+========================= */
+
 .login-box h2 {
-    color: #6A1B9A;
+    position: relative;
+
+    color: #249dcc;
+
     text-align: center;
-    font-size: 36px;    /* ✅ TULISAN SANGAT BESAR */
+
+    font-size: 36px;
+
     margin-bottom: 40px;
+
     font-weight: bold;
 }
+
+
+/* =========================
+   INPUT
+========================= */
 
 .login-box input {
     width: 100%;
-    padding: 22px 18px; /* ✅ KOTAK SANGAT BESAR */
+
+    padding: 22px 18px;
+
     margin-bottom: 22px;
-    border: 2px solid #ddd;
-    border-radius: 14px;
-    font-size: 22px;     /* ✅ TULISAN DALAM BESAR */
-}
 
-.login-box input:focus {
-    border-color: #6A1B9A;
-    outline: none;
-}
+    border: 2px solid #d7eaf0;
 
-.login-box button {
-    width: 100%;
-    padding: 22px;      /* ✅ TOMBOL BESAR TINGGI */
-    background: #6A1B9A;
-    color: white;
-    border: none;
     border-radius: 14px;
-    font-size: 24px;     /* ✅ TULISAN TOMBOL SANGAT BESAR */
-    font-weight: bold;
-    cursor: pointer;
+
+    font-size: 22px;
+
+    background: #ffffff;
+
     transition: 0.2s;
 }
 
-.login-box button:hover {
-    background: #512DA8;
+.login-box input:focus {
+    border-color: #62cbe9;
+
+    outline: none;
+
+    box-shadow: 0 0 0 4px rgba(98, 203, 233, 0.12);
 }
+
+
+/* =========================
+   TOMBOL LOGIN
+========================= */
+
+.login-box button {
+    width: 100%;
+
+    padding: 22px;
+
+    background: linear-gradient(
+        135deg,
+        #5ed0ee,
+        #36acd4
+    );
+
+    color: white;
+
+    border: none;
+
+    border-radius: 14px;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    box-shadow:
+        0 6px 14px rgba(66, 188, 230, 0.25);
+}
+
+.login-box button:hover {
+    background: linear-gradient(
+        135deg,
+        #36acd4,
+        #218fb8
+    );
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   TEKS DAFTAR
+========================= */
 
 .login-box p {
     text-align: center;
+
     margin-top: 35px;
-    font-size: 21px;     /* ✅ TULISAN BESAR */
+
+    font-size: 21px;
+
+    color: #666;
 }
+
+
+/* =========================
+   LINK DAFTAR
+========================= */
 
 .login-box a {
-    color: #6A1B9A;
+    color: #df6fa5;
+
     text-decoration: none;
+
     font-weight: bold;
-    font-size: 22px;     /* ✅ LINK BESAR */
+
+    font-size: 22px;
+
+    transition: 0.2s;
 }
 
+.login-box a:hover {
+    color: #c9578b;
+}
+
+
+/* =========================
+   PESAN ERROR
+========================= */
+
 .error {
-    color: #d32f2f;
-    background: #ffebee;
-    padding: 18px;       /* ✅ KOTAK PESAN BESAR */
+    color: #d04444;
+
+    background: #ffe8ef;
+
+    border: 1px solid #ffc5d7;
+
+    padding: 18px;
+
     border-radius: 12px;
+
     margin-bottom: 22px;
+
     text-align: center;
-    font-size: 20px;     /* ✅ TULISAN PESAN BESAR */
+
+    font-size: 20px;
 }

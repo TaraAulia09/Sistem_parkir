@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (!isset($_SESSION['role'])) {
@@ -13,271 +12,254 @@ if (strtolower($_SESSION['role']) != 'admin') {
 }
 
 require_once __DIR__ . '/../Config/Koneksi.php';
-
-
-// ===============================
-// AMBIL DATA PENGGUNA
-// ===============================
-
-$ambil_user = mysqli_query(
-    $koneksi,
-    "SELECT * FROM Tabel_user"
-);
-
-if (!$ambil_user) {
-    die("Gagal mengambil data: " . mysqli_error($koneksi));
-}
-
-$total_user = mysqli_num_rows($ambil_user);
-
-
-// ===============================
-// SEMENTARA
-// ===============================
-
-$total_kendaraan = 0;
-$total_pendapatan = 0;
-
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
 
     <meta charset="UTF-8">
 
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Dashboard Admin - Parkir</title>
 
-    <link rel="stylesheet" href="../Assets/Css/Admin.css">
+    <link rel="stylesheet"
+          href="../Assets/Css/Admin.css?v=4">
 
 </head>
-
 
 <body>
 
 <div class="container">
 
 
-    <!-- ===============================
+    <!-- =========================
          HEADER
-    ================================ -->
+    ========================== -->
 
     <div class="header">
 
-        <h1>Aplikasi Manajemen Parkir</h1>
+        <div class="judul-aplikasi">
+
+            <h1>Aplikasi Manajemen Parkir</h1>
+
+            <p>Dashboard Admin</p>
+
+        </div>
+
 
         <div class="user-info">
 
             <span>
-                <?php echo htmlspecialchars($_SESSION['username']); ?>
-            </span>
-
-            <a href="Logout.php" class="btn-keluar">
-                Keluar
-            </a>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ===============================
-         RINGKASAN
-    ================================ -->
-
-    <div class="grid-box">
-
-
-        <!-- TOTAL PENGGUNA -->
-
-        <div class="box">
-
-            <h3>Total Pengguna</h3>
-
-            <p class="angka">
-                <?php echo $total_user; ?>
-            </p>
-
-        </div>
-
-
-
-        <!-- TOTAL KENDARAAN -->
-
-        <a href="Kendaraan.php" class="box box-link">
-
-            <h3>Total Kendaraan</h3>
-
-            <p class="angka">
-                <?php echo $total_kendaraan; ?>
-            </p>
-
-            <span class="lihat">
-                Klik untuk melihat
-            </span>
-
-        </a>
-
-
-
-        <!-- TOTAL PENDAPATAN -->
-
-        <a href="Data_Pendapatan.php" class="box box-link">
-
-            <h3>Total Pendapatan</h3>
-
-            <p class="angka">
-                Rp <?php echo number_format($total_pendapatan, 0, ',', '.'); ?>
-            </p>
-
-            <span class="lihat">
-                Klik untuk melihat
-            </span>
-
-        </a>
-
-
-    </div>
-
-
-
-    <!-- ===============================
-         DATA PENGGUNA
-    ================================ -->
-
-    <div class="card">
-
-
-        <div class="judul-tabel">
-
-            <h2>Daftar Pengguna</h2>
-
-            <a href="Tambah_Pengguna.php" class="btn-tambah">
-                + Tambah Pengguna
-            </a>
-
-        </div>
-
-
-
-        <table>
-
-
-            <thead>
-
-                <tr>
-
-                    <th>No</th>
-
-                    <th>Nama Lengkap</th>
-
-                    <th>Username</th>
-
-                    <th>Peran</th>
-
-                    <th>Aksi</th>
-
-                </tr>
-
-            </thead>
-
-
-
-            <tbody>
-
-
                 <?php
-
-                // Nomor urut tampilan
-                $no = 1;
-
-                while ($row = mysqli_fetch_assoc($ambil_user)) :
-
+                echo htmlspecialchars($_SESSION['username']);
                 ?>
+            </span>
+
+            <a href="Logout.php"
+               class="btn-keluar">
+
+                Keluar
+
+            </a>
+
+        </div>
+
+    </div>
 
 
-                <tr>
+    <!-- =========================
+         WELCOME ADMIN
+    ========================== -->
+
+    <div class="welcome-card">
+
+        <div>
+
+            <h2>
+                Selamat Datang, Admin 👋
+            </h2>
+
+            <p>
+                Kelola data dan aktivitas parkir
+                melalui dashboard ini.
+            </p>
+
+        </div>
 
 
-                    <!-- NOMOR URUT -->
+        <div class="shine-icon">
+            🤵🏻‍♀️
+        </div>
 
-                    <td>
-                        <?php echo $no++; ?>
-                    </td>
-
-
-                    <!-- NAMA -->
-
-                    <td>
-                        <?php echo htmlspecialchars($row['Nama_lengkap']); ?>
-                    </td>
+    </div>
 
 
-                    <!-- USERNAME -->
+    <!-- =========================
+         JUDUL MENU ADMIN
+    ========================== -->
 
-                    <td>
-                        <?php echo htmlspecialchars($row['Username']); ?>
-                    </td>
+    <div class="menu-section">
 
+        <h2>Menu Admin</h2>
 
-                    <!-- ROLE -->
-
-                    <td>
-                        <?php echo htmlspecialchars($row['Role']); ?>
-                    </td>
+    </div>
 
 
-                    <!-- AKSI -->
+    <!-- =========================
+         MENU ADMIN
+    ========================== -->
 
-                    <td>
-
-
-                        <!-- EDIT -->
-
-                        <a
-                            href="Edit_Pengguna.php?id=<?php echo $row['Id_user']; ?>"
-                            class="btn-edit">
-
-                            Edit
-
-                        </a>
+    <div class="menu-admin">
 
 
+        <!-- PENGGUNA -->
 
-                        <!-- HAPUS -->
+        <a href="Pengguna.php"
+           class="menu-card">
 
-                        <a
-                            href="../Controllers/Hapus_PenggunaController.php?id=<?php echo $row['Id_user']; ?>"
-                            class="btn-hapus"
-                            onclick="return confirm('Yakin ingin menghapus pengguna ini?')">
+            <div class="menu-icon">
+                👤
+            </div>
 
-                            Hapus
+            <div class="menu-text">
 
-                        </a>
+                <h3>
+                    Pengguna
+                </h3>
+
+                <p>
+                    Kelola data pengguna
+                </p>
+
+            </div>
+
+            <div class="menu-arrow">
+                ›
+            </div>
+
+        </a>
 
 
-                    </td>
+        <!-- KENDARAAN -->
+
+        <a href="Kendaraan.php"
+           class="menu-card">
+
+            <div class="menu-icon">
+                🚗
+            </div>
+
+            <div class="menu-text">
+
+                <h3>
+                    Kendaraan
+                </h3>
+
+                <p>
+                    Kelola data kendaraan
+                </p>
+
+            </div>
+
+            <div class="menu-arrow">
+                ›
+            </div>
+
+        </a>
 
 
-                </tr>
+        <!-- TARIF PARKIR -->
+
+        <a href="Tarif.php"
+           class="menu-card">
+
+            <div class="menu-icon">
+                💰
+            </div>
+
+            <div class="menu-text">
+
+                <h3>
+                    Tarif Parkir
+                </h3>
+
+                <p>
+                    Kelola tarif parkir
+                </p>
+
+            </div>
+
+            <div class="menu-arrow">
+                ›
+            </div>
+
+        </a>
 
 
-                <?php endwhile; ?>
+        <!-- AREA PARKIR -->
+
+        <a href="Area_Parkir.php"
+           class="menu-card">
+
+            <div class="menu-icon">
+                🅿️
+            </div>
+
+            <div class="menu-text">
+
+                <h3>
+                    Area Parkir
+                </h3>
+
+                <p>
+                    Kelola area parkir
+                </p>
+
+            </div>
+
+            <div class="menu-arrow">
+                ›
+            </div>
+
+        </a>
 
 
-            </tbody>
+        <!-- LOG AKTIVITAS -->
 
+        <a href="Log_Aktivitas.php"
+           class="menu-card">
 
-        </table>
+            <div class="menu-icon">
+                📋
+            </div>
+
+            <div class="menu-text">
+
+                <h3>
+                    Log Aktivitas
+                </h3>
+
+                <p>
+                    Lihat aktivitas sistem
+                </p>
+
+            </div>
+
+            <div class="menu-arrow">
+                ›
+            </div>
+
+        </a>
 
 
     </div>
 
 
 </div>
-
 
 </body>
 

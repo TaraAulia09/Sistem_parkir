@@ -7,65 +7,9 @@ if (!isset($_SESSION['role'])) {
     exit;
 }
 
-$role = strtolower($_SESSION['role']);
-
-if ($role != 'pegawai' && $role != 'petugas') {
-    header("Location: Login.php?pesan=Anda bukan Petugas!");
+if (strtolower($_SESSION['role']) != 'petugas') {
+    header("Location: Login.php?pesan=Anda Bukan Petugas!");
     exit;
-}
-
-require_once __DIR__ . '/../Config/Koneksi.php';
-
-
-// ===============================
-// DATA TRANSAKSI
-// ===============================
-
-$query = mysqli_query(
-    $koneksi,
-    "SELECT
-        t.Id_parkir,
-        k.Nama,
-        k.Plat_nomor,
-        k.Jenis_kendaraan,
-        t.Waktu_masuk,
-        t.Waktu_keluar,
-        t.Biaya_total,
-        t.Status
-
-    FROM Tabel_transaksi AS t
-
-    LEFT JOIN Tabel_Kendaraan AS k
-        ON t.Id_kendaraan = k.Id_kendaraan
-
-    ORDER BY t.Waktu_masuk DESC"
-);
-
-if (!$query) {
-    die("Query transaksi gagal: " . mysqli_error($koneksi));
-}
-
-
-// ===============================
-// DATA STOK PARKIR
-// ===============================
-
-$area_query = mysqli_query(
-    $koneksi,
-    "SELECT
-        Id_area_parkir,
-        Nama_area,
-        Kapasitas,
-        Terisi,
-        (Kapasitas - Terisi) AS Tersedia
-
-    FROM Tabel_area_parkir
-
-    ORDER BY Id_area_parkir ASC"
-);
-
-if (!$area_query) {
-    die("Query stok parkir gagal: " . mysqli_error($koneksi));
 }
 
 ?>
@@ -80,542 +24,142 @@ if (!$area_query) {
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard Petugas</title>
+    <title>Dashboard Petugas - Parkir</title>
 
     <link rel="stylesheet"
-          href="../Assets/Css/Petugas.css">
+          href="../Assets/Css/Petugas.css?v=2">
 
 </head>
 
-
 <body>
 
+<div class="petugas-container">
 
-<!-- ================= HEADER ================= -->
+    <!-- HEADER -->
 
-<header class="header">
+    <div class="petugas-header">
 
-    <div class="logo">
-        Parkir
-    </div>
+        <div class="judul">
 
-    <div class="user-area">
+            <h1>Aplikasi Manajemen Parkir</h1>
 
-        <span>
-            <?php echo htmlspecialchars($_SESSION['username']); ?>
-        </span>
+            <p>Dashboard Petugas</p>
 
-        <a href="Logout.php">
-            Logout
-        </a>
+        </div>
 
-    </div>
+        <div class="petugas-user">
 
-</header>
+            <span>
+                <?php
+                echo htmlspecialchars($_SESSION['username']);
+                ?>
+            </span>
 
-
-
-<!-- ================= CONTENT ================= -->
-
-<main class="container">
-
-
-    <div class="work-title">
-        Dashboard Petugas
-    </div>
-
-
-
-    <!-- ================= MENU ================= -->
-
-    <div class="menu-grid">
-
-
-        <!-- TRANSAKSI -->
-
-        <div class="menu-card">
-
-            <div class="card-icon">
-                📋
-            </div>
-
-            <h2>
-                Transaksi
-            </h2>
-
-            <p>
-                Catat kendaraan masuk dan
-                proses kendaraan keluar.
-            </p>
-
-            <a href="#" class="btn-menu">
-                Buka Transaksi
+            <a href="Logout.php"
+               class="btn-keluar">
+                Keluar
             </a>
 
         </div>
 
+    </div>
 
 
-        <!-- STOK PARKIR -->
+    <!-- WELCOME -->
 
-        <div class="menu-card">
+    <div class="welcome-card">
 
-            <div class="card-icon">
-                🅿️
-            </div>
+        <div>
 
             <h2>
-                Cek Stok Parkir
+                Selamat Datang, Petugas 👋
             </h2>
 
             <p>
-                Lihat kapasitas dan slot
-                parkir yang tersedia.
+                Kelola transaksi parkir dan cetak struk.
             </p>
 
-            <button
-                type="button"
-                class="btn-menu stock-button"
-                id="stockButton">
+        </div>
 
-                Lihat Stok Parkir
-
-            </button>
-
+        <div class="shine-icon">
+            👮🏻
         </div>
 
     </div>
 
 
+    <!-- MENU -->
 
-    <!-- ================= STOK PARKIR ================= -->
+    <div class="menu-section">
 
-    <div
-        class="stock-card"
-        id="stockCard"
-        style="display: none;">
+        <h2>Menu Petugas</h2>
 
-        <div class="section-title">
-
-            <h2>
-                🅿️ Stok Parkir
-            </h2>
-
-            <button
-                type="button"
-                id="closeStock">
-
-                Tutup
-
-            </button>
-
-        </div>
+        <div class="menu-grid">
 
 
-        <div class="table-wrapper">
+            <!-- TRANSAKSI -->
 
-            <table>
+            <a href="Transaksi.php"
+               class="menu-card">
 
-                <thead>
+                <div class="menu-icon">
+                    🧾
+                </div>
 
-                    <tr>
+                <div class="menu-info">
 
-                        <th>Area</th>
+                    <h3>
+                        Transaksi Parkir
+                    </h3>
 
-                        <th>Kapasitas</th>
+                    <p>
+                        Kelola transaksi parkir
+                        masuk dan keluar.
+                    </p>
 
-                        <th>Terisi</th>
+                </div>
 
-                        <th>Tersedia</th>
+                <span class="menu-arrow">
+                    →
+                </span>
 
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                <?php if (mysqli_num_rows($area_query) > 0): ?>
-
-                    <?php while ($area = mysqli_fetch_assoc($area_query)): ?>
-
-                        <tr>
-
-                            <td>
-                                <?php
-                                echo htmlspecialchars(
-                                    $area['Nama_area']
-                                );
-                                ?>
-                            </td>
+            </a>
 
 
-                            <td>
-                                <?php
-                                echo htmlspecialchars(
-                                    $area['Kapasitas']
-                                );
-                                ?>
-                            </td>
+            <!-- CETAK STRUK -->
 
+            <a href="Cetak_Struk.php"
+               class="menu-card">
 
-                            <td>
-                                <?php
-                                echo htmlspecialchars(
-                                    $area['Terisi']
-                                );
-                                ?>
-                            </td>
+                <div class="menu-icon">
+                    🖨️
+                </div>
 
+                <div class="menu-info">
 
-                            <td class="tersedia">
+                    <h3>
+                        Cetak Struk Parkir
+                    </h3>
 
-                                <?php
-                                echo htmlspecialchars(
-                                    $area['Tersedia']
-                                );
-                                ?>
+                    <p>
+                        Cetak bukti transaksi
+                        parkir.
+                    </p>
 
-                            </td>
+                </div>
 
-                        </tr>
+                <span class="menu-arrow">
+                    →
+                </span>
 
-                    <?php endwhile; ?>
+            </a>
 
-                <?php else: ?>
-
-                    <tr>
-
-                        <td
-                            colspan="4"
-                            class="kosong">
-
-                            Belum ada data area parkir.
-
-                        </td>
-
-                    </tr>
-
-                <?php endif; ?>
-
-                </tbody>
-
-            </table>
 
         </div>
 
     </div>
 
-
-
-    <!-- ================= TRANSAKSI ================= -->
-
-    <div class="transaction-card">
-
-
-        <div class="transaction-title">
-
-            <h2>
-                📋 Transaksi Hari Ini
-            </h2>
-
-        </div>
-
-
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>Nama</th>
-
-                        <th>Plat Nomor</th>
-
-                        <th>Jenis</th>
-
-                        <th>Waktu Masuk</th>
-
-                        <th>Waktu Keluar</th>
-
-                        <th>Biaya</th>
-
-                        <th>Status</th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-
-                <?php if (mysqli_num_rows($query) > 0): ?>
-
-
-                    <?php while ($data = mysqli_fetch_assoc($query)): ?>
-
-
-                        <tr>
-
-
-                            <!-- NAMA -->
-
-                            <td>
-
-                                <?php
-
-                                echo htmlspecialchars(
-                                    $data['Nama'] ?? '-'
-                                );
-
-                                ?>
-
-                            </td>
-
-
-
-                            <!-- PLAT -->
-
-                            <td>
-
-                                <?php
-
-                                echo htmlspecialchars(
-                                    $data['Plat_nomor'] ?? '-'
-                                );
-
-                                ?>
-
-                            </td>
-
-
-
-                            <!-- JENIS -->
-
-                            <td>
-
-                                <?php
-
-                                echo htmlspecialchars(
-                                    $data['Jenis_kendaraan'] ?? '-'
-                                );
-
-                                ?>
-
-                            </td>
-
-
-
-                            <!-- WAKTU MASUK -->
-
-                            <td>
-
-                                <?php
-
-                                if (!empty($data['Waktu_masuk'])) {
-
-                                    echo date(
-                                        'H:i',
-                                        strtotime(
-                                            $data['Waktu_masuk']
-                                        )
-                                    );
-
-                                } else {
-
-                                    echo '-';
-
-                                }
-
-                                ?>
-
-                            </td>
-
-
-
-                            <!-- WAKTU KELUAR -->
-
-                            <td>
-
-                                <?php
-
-                                if (!empty($data['Waktu_keluar'])) {
-
-                                    echo date(
-                                        'H:i',
-                                        strtotime(
-                                            $data['Waktu_keluar']
-                                        )
-                                    );
-
-                                } else {
-
-                                    echo '-';
-
-                                }
-
-                                ?>
-
-                            </td>
-
-
-
-                            <!-- BIAYA -->
-
-                            <td class="biaya">
-
-                                <?php
-
-                                if (
-                                    $data['Biaya_total'] !== null &&
-                                    $data['Biaya_total'] !== ''
-                                ) {
-
-                                    echo 'Rp ' .
-                                        number_format(
-                                            $data['Biaya_total'],
-                                            0,
-                                            ',',
-                                            '.'
-                                        );
-
-                                } else {
-
-                                    echo '-';
-
-                                }
-
-                                ?>
-
-                            </td>
-
-
-
-                            <!-- STATUS -->
-
-                            <td>
-
-                                <?php
-
-                                $status =
-                                    strtolower(
-                                        trim(
-                                            $data['Status'] ?? ''
-                                        )
-                                    );
-
-
-                                if ($status == 'keluar') {
-
-                                    echo '<span class="status selesai">
-                                            Selesai
-                                          </span>';
-
-                                } elseif ($status == 'masuk') {
-
-                                    echo '<span class="status masuk">
-                                            Masuk
-                                          </span>';
-
-                                } else {
-
-                                    echo '<span class="status">
-                                            -
-                                          </span>';
-
-                                }
-
-                                ?>
-
-                            </td>
-
-
-                        </tr>
-
-
-                    <?php endwhile; ?>
-
-
-                <?php else: ?>
-
-
-                    <tr>
-
-                        <td
-                            colspan="7"
-                            class="kosong">
-
-                            Belum ada transaksi.
-
-                        </td>
-
-                    </tr>
-
-
-                <?php endif; ?>
-
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-</main>
-
-
-
-<!-- ================= JAVASCRIPT ================= -->
-
-<script>
-
-const stockButton =
-    document.getElementById("stockButton");
-
-const stockCard =
-    document.getElementById("stockCard");
-
-const closeStock =
-    document.getElementById("closeStock");
-
-
-// BUKA STOK
-
-stockButton.addEventListener(
-    "click",
-    function () {
-
-        stockCard.style.display = "block";
-
-        stockCard.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-
-    }
-);
-
-
-// TUTUP STOK
-
-closeStock.addEventListener(
-    "click",
-    function () {
-
-        stockCard.style.display = "none";
-
-    }
-);
-
-</script>
-
+</div>
 
 </body>
 

@@ -8,18 +8,31 @@ if (isset($_GET['id'])) {
 
     $query = mysqli_query(
         $koneksi,
-        "DELETE FROM Tabel_user WHERE Id_user='$id'"
+        "DELETE FROM Tabel_user
+         WHERE Id_user='$id'"
     );
 
     if ($query) {
-        header("Location: ../View/Admin.php?pesan=Data berhasil dihapus");
+
+        header(
+            "Location: ../View/Pengguna.php?pesan=Data berhasil dihapus"
+        );
+
         exit;
+
     } else {
-        die("Gagal menghapus pengguna: " . mysqli_error($koneksi));
+
+        die(
+            "Gagal menghapus pengguna: "
+            . mysqli_error($koneksi)
+        );
+
     }
 
 } else {
+
     die("ID pengguna tidak ditemukan.");
+
 }
 
 ?>

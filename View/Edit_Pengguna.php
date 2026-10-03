@@ -2,19 +2,34 @@
 
 session_start();
 
+if (!isset($_SESSION['role'])) {
+    header("Location: Login.php");
+    exit;
+}
+
+if (strtolower($_SESSION['role']) != 'admin') {
+    header("Location: Login.php");
+    exit;
+}
+
 require_once __DIR__ . '/../Config/Koneksi.php';
 
-// Cek ID
+
+// Cek ID pengguna
 if (!isset($_GET['id'])) {
-    die("ID pengguna tidak ditemukan.");
+    header("Location: Pengguna.php");
+    exit;
 }
 
 $id = $_GET['id'];
 
-// Ambil data berdasarkan ID
+
+// Ambil data pengguna
 $query = mysqli_query(
     $koneksi,
-    "SELECT * FROM Tabel_user WHERE Id_user='$id'"
+    "SELECT *
+     FROM Tabel_user
+     WHERE Id_user='$id'"
 );
 
 if (!$query) {
@@ -36,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password     = $_POST['password'];
     $role         = $_POST['role'];
 
-    // Update data
     $update = mysqli_query(
         $koneksi,
         "UPDATE Tabel_user SET
@@ -49,12 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($update) {
 
-        header("Location: Admin.php");
+        header("Location: Pengguna.php");
         exit;
 
     } else {
 
-        die("Gagal mengubah data: " . mysqli_error($koneksi));
+        die(
+            "Gagal mengubah data: "
+            . mysqli_error($koneksi)
+        );
 
     }
 }
@@ -62,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
 
@@ -70,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <title>Edit Pengguna</title>
 
-    <link rel="stylesheet" href="../Assets/Css/Tambah.css">
+    <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=101">
 
 </head>
 
@@ -118,31 +135,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <select name="role" required>
 
+                <option value="">-- Pilih Role --</option>
+
                 <option value="Admin"
-                    <?php if ($data['Role'] == 'Admin') echo 'selected'; ?>>
+                    <?php
+                    if (strtolower($data['Role']) == 'admin') {
+                        echo 'selected';
+                    }
+                    ?>>
                     Admin
                 </option>
 
-                <option value="petugas"
-                    <?php if ($data['Role'] == 'petugas') echo 'selected'; ?>>
+                <option value="Petugas"
+                    <?php
+                    if (strtolower($data['Role']) == 'petugas') {
+                        echo 'selected';
+                    }
+                    ?>>
                     Petugas
                 </option>
 
-                <option value="owner"
-                    <?php if ($data['Role'] == 'owner') echo 'selected'; ?>>
+                <option value="Owner"
+                    <?php
+                    if (strtolower($data['Role']) == 'owner') {
+                        echo 'selected';
+                    }
+                    ?>>
                     Owner
                 </option>
 
             </select>
 
 
-            <button type="submit">
-                Simpan Perubahan
-            </button>
+            <div class="form-buttons">
 
-            <a href="Admin.php">
-                Batal
-            </a>
+                <button type="submit">
+                    Simpan
+                </button>
+
+                <a
+                    href="Pengguna.php"
+                    class="btn-batal"
+                >
+                    Batal
+                </a>
+
+            </div>
 
         </form>
 

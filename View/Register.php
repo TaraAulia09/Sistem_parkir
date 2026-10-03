@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Daftar Akun Parkir</title>
-    <link rel="stylesheet" href="../Assets/Css/Register.css">
+    <link rel="stylesheet" href="../Assets/Css/Register.css?v=100">
 </head>
 <body>
 
@@ -20,7 +20,7 @@
     <form action="../Controllers/RegisterController.php" method="POST">
 
         <label>Nama Lengkap</label>
-        <input type="text" name="nama_lengkap" required placeholder="Nama lengkap kamu">
+        <input type="text" name="nama_lengkap" required placeholder="Nama lengkap">
 
         <label>Username</label>
         <input type="text" name="username" required placeholder="Buat nama pengguna">
@@ -32,8 +32,8 @@
         <select name="role" required>
             <option value="">-- Pilih Peran --</option>
             <option value="Admin">Admin</option>
-            <option value="Petugas">Petugas Parkir</option>
-            <option value="Pemilik">Pemilik / Owner</option>
+            <option value="Petugas">Petugas</option>
+            <option value="Owner">Owner</option>
         </select>
 
         <button type="submit">

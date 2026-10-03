@@ -1,99 +1,89 @@
-<?php
+<?php  
+  
+session_start();  
+  
+require_once __DIR__ . '/../Config/Koneksi.php';  
+  
+?>  <!DOCTYPE html>  
+<html>  
+  
+<head>  
+    <meta charset="UTF-8">  
+  
+    <title>Tambah Pengguna</title>  <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=1">
 
-session_start();
+</head>  
+  
+  <body>  
+    
+  <div class="container">  
+    <div class="card">  
 
-require_once __DIR__ . '/../Config/Koneksi.php';
+    <h2>Tambah Pengguna</h2>  
 
-?>
+    <form action="../Controllers/Tambah_PenggunaController.php" method="POST">  
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Tambah Pengguna</title>
+        <label>Nama Lengkap</label>  
 
-       <link rel="stylesheet" href="../Assets/Css/Tambah.css">
-       
-</head>
+        <input  
+            type="text"  
+            name="nama_lengkap"  
+            placeholder="Masukkan nama lengkap"  
+            required>  
 
-<body>
+        <label>Username</label>  
 
-<div class="container">
+        <input  
+            type="text"  
+            name="username"  
+            placeholder="Masukkan username"  
+            required  >  
 
-    <div class="card">
+        <label>Password</label>  
 
-        <h2>Tambah Pengguna</h2>
+        <input  
+            type="password"  
+            name="password"  
+            placeholder="Masukkan password"  
+            required>  
 
-        <form action="../Controllers/Tambah_PenggunaController.php" method="POST">
+        <label>Role</label>  
 
-            <label>Nama Lengkap</label>
+        <select name="role" required>  
 
-            <input
-                type="text"
-                name="nama_lengkap"
-                placeholder="Masukkan nama lengkap"
-                required
-            >
+            <option value="">-- Pilih Role --</option>  
 
-            <br><br>
+            <option value="Admin">  
+                Admin  
+            </option>  
 
-            <label>Username</label>
+            <option value="Petugas">  
+                Petugas  
+            </option>  
 
-            <input
-                type="text"
-                name="username"
-                placeholder="Masukkan username"
-                required
-            >
+            <option value="Owner">  
+                Owner  
+            </option>  
 
-            <br><br>
+        </select>  
 
-            <label>Password</label>
 
-            <input
-                type="password"
-                name="password"
-                placeholder="Masukkan password"
-                required
-            >
+        <div class="form-buttons">
 
-            <br><br>
+                <button type="submit">
+                    Simpan
+                </button>
 
-            <label>Role</label>
+                <a href="Admin.php" class="btn-batal">
+                    Batal
+                </a>
 
-            <select name="role" required>
-
-                <option value="">-- Pilih Role --</option>
-
-                <option value="Admin">
-                    Admin
-                </option>
-
-                <option value="Petugas">
-                    Petugas
-                </option>
-
-                <option value="Owner">
-                    Owner
-                </option>
-
-            </select>
-
-            <br><br>
-
-            <button type="submit">
-                Simpan
-            </button>
-
-            <a href="Admin.php">
-                Batal
-            </a>
-
-        </form>
-
-    </div>
+    </form>  
 
 </div>
 
-</body>
+</div>  
+    
+</body>  
+  
 </html>

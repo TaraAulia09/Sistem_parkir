@@ -16,29 +16,29 @@ require_once __DIR__ . '/../Config/Koneksi.php';
 
 
 // =========================
-// AMBIL DATA KENDARAAN
+// AMBIL DATA TARIF
 // =========================
 
-$ambil_kendaraan = mysqli_query(
+$ambil_tarif = mysqli_query(
     $koneksi,
     "SELECT *
-     FROM Tabel_kendaraan
-     ORDER BY Id_kendaraan ASC"
+     FROM Tabel_tarif
+     ORDER BY Id_tarif ASC"
 );
 
-if (!$ambil_kendaraan) {
+if (!$ambil_tarif) {
     die(
-        "Gagal mengambil data kendaraan: "
+        "Gagal mengambil data tarif: "
         . mysqli_error($koneksi)
     );
 }
 
 
 // =========================
-// TOTAL KENDARAAN
+// TOTAL TARIF
 // =========================
 
-$total_kendaraan = mysqli_num_rows($ambil_kendaraan);
+$total_tarif = mysqli_num_rows($ambil_tarif);
 
 ?>
 
@@ -54,11 +54,11 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Data Kendaraan - Admin</title>
+    <title>Tarif Parkir - Admin</title>
 
-    <!-- CSS SAMA DENGAN PENGGUNA -->
-    <link rel="stylesheet" href="../Assets/Css/Kendaraan1.css">
-    
+    <!-- PAKAI CSS YANG SAMA DENGAN PENGGUNA -->
+
+    <link rel="stylesheet" href="../Assets/Css/Kendaraan1.css?v=3">
 
 </head>
 
@@ -109,20 +109,20 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
 
 
     <!-- =========================
-         TOTAL KENDARAAN
+         TOTAL TARIF
     ========================== -->
 
     <div class="total-card">
 
         <h2>
-            Total Kendaraan
+            Total Tarif Parkir
         </h2>
 
 
         <div class="total-angka">
 
             <?php
-            echo $total_kendaraan;
+            echo $total_tarif;
             ?>
 
         </div>
@@ -132,36 +132,37 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
 
 
     <!-- =========================
-         DAFTAR KENDARAAN
+         DAFTAR TARIF
     ========================== -->
 
     <div class="card">
 
+
         <div class="judul-tabel">
 
             <h2>
-                Daftar Kendaraan
+                Daftar Tarif Parkir
             </h2>
 
 
             <a
-                href="Tambah_Kendaraan.php"
+                href="Tambah_Tarif.php"
                 class="btn-tambah"
             >
-                + Tambah Kendaraan
+                + Tambah Tarif
             </a>
 
         </div>
 
 
 
-        <!-- =========================
-             TABLE WRAPPER
-        ========================== -->
+        <!-- TABLE WRAPPER -->
 
         <div class="table-wrapper">
 
+
             <table>
+
 
                 <thead>
 
@@ -172,19 +173,11 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
                         </th>
 
                         <th>
-                            Plat Nomor
+                            Jenis Kendaraan
                         </th>
 
                         <th>
-                           Kendaraan
-                        </th>
-
-                        <th>
-                            Warna
-                        </th>
-
-                        <th>
-                            Pemilik
+                            Tarif Per Jam
                         </th>
 
                         <th>
@@ -196,84 +189,86 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
                 </thead>
 
 
+
                 <tbody>
+
 
                 <?php
 
                 $no = 1;
 
+
                 if (
-                    mysqli_num_rows($ambil_kendaraan) > 0
+                    mysqli_num_rows($ambil_tarif) > 0
                 ):
 
                     while (
                         $row =
-                        mysqli_fetch_assoc($ambil_kendaraan)
+                        mysqli_fetch_assoc($ambil_tarif)
                     ):
 
                 ?>
 
+
                     <tr>
+
 
                         <!-- NO -->
 
                         <td>
+
                             <?php
                             echo $no++;
                             ?>
+
                         </td>
 
-
-                        <!-- PLAT NOMOR -->
-
-                        <td>
-                            <?php
-                            echo htmlspecialchars(
-                                $row['Plat_nomor']
-                            );
-                            ?>
-                        </td>
 
 
                         <!-- JENIS KENDARAAN -->
 
                         <td>
+
                             <?php
+
                             echo htmlspecialchars(
                                 $row['Jenis_kendaraan']
                             );
+
                             ?>
+
                         </td>
 
 
-                        <!-- WARNA -->
+
+                        <!-- TARIF -->
 
                         <td>
+
+                            Rp
+
                             <?php
-                            echo htmlspecialchars(
-                                $row['Warna']
+
+                            echo number_format(
+                                $row['Tarif_per_jam'],
+                                0,
+                                ',',
+                                '.'
                             );
+
                             ?>
+
                         </td>
 
-
-                        <!-- PEMILIK -->
-
-                        <td>
-                            <?php
-                            echo htmlspecialchars(
-                                $row['Pemilik']
-                            );
-                            ?>
-                        </td>
 
 
                         <!-- AKSI -->
 
                         <td>
 
+
                             <a
-                                href="Edit_Kendaraan.php?id=<?php echo $row['Id_kendaraan']; ?>"
+                                href="Edit_Tarif.php?id=<?php echo $row['Id_tarif']; ?>"
                                 class="btn-edit"
                             >
                                 Edit
@@ -281,14 +276,16 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
 
 
                             <a
-                                href="../Controllers/Hapus_KendaraanController.php?id=<?php echo $row['Id_kendaraan']; ?>"
+                                href="../Controllers/Hapus_TarifController.php?id=<?php echo $row['Id_tarif']; ?>"
                                 class="btn-hapus"
-                                onclick="return confirm('Yakin ingin menghapus kendaraan ini?');"
+                                onclick="return confirm('Yakin ingin menghapus tarif ini?');"
                             >
                                 Hapus
                             </a>
 
+
                         </td>
+
 
                     </tr>
 
@@ -301,16 +298,18 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
 
                 ?>
 
+
                     <tr>
 
                         <td
-                            colspan="6"
+                            colspan="4"
                             class="kosong"
                         >
-                            Belum ada data kendaraan.
+                            Belum ada data tarif.
                         </td>
 
                     </tr>
+
 
                 <?php
 
@@ -318,13 +317,18 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
 
                 ?>
 
+
                 </tbody>
+
 
             </table>
 
+
         </div>
 
+
     </div>
+
 
 </div>
 

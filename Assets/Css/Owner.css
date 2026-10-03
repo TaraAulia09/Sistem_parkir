@@ -1,0 +1,743 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eaf9ff,
+            #d8f4ff,
+            #f5fcff
+        );
+
+    color: #29404a;
+
+    min-height: 100vh;
+}
+
+
+.owner-container {
+    width: 92%;
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 30px 0 50px;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.owner-header {
+
+    min-height: 80px;
+
+    padding: 18px 25px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #72d8f7,
+            #42bce6,
+            #9beaff
+        );
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    box-shadow:
+        0 8px 25px
+        rgba(55, 174, 218, 0.30);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.owner-header::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+
+    height: 220px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.20);
+
+    top: -150px;
+
+    right: 100px;
+
+    filter: blur(4px);
+}
+
+
+.judul {
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.judul h1 {
+
+    font-size: 23px;
+}
+
+
+.judul p {
+
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    opacity: 0.9;
+}
+
+
+.owner-user {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.owner-user span {
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+.btn-keluar {
+
+    background: white;
+
+    color: #258db6;
+
+    text-decoration: none;
+
+    padding: 9px 16px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+
+.btn-keluar:hover {
+
+    background: #eaf9ff;
+
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   WELCOME
+===================================================== */
+
+.welcome-card {
+
+    margin-top: 22px;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    border:
+        1px solid
+        rgba(92, 203, 238, 0.30);
+
+    box-shadow:
+        0 7px 22px
+        rgba(50, 160, 200, 0.12);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+.welcome-card h2 {
+
+    color: #247fa6;
+
+    font-size: 21px;
+}
+
+
+.welcome-card p {
+
+    margin-top: 7px;
+
+    color: #6c8792;
+
+    font-size: 14px;
+}
+
+
+.shine-icon {
+
+    width: 72px;
+    height: 72px;
+
+    flex-shrink: 0;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d2f7ff,
+            #7bdaf7
+        );
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 32px;
+
+    box-shadow:
+        0 5px 15px
+        rgba(70, 180, 220, 0.25);
+}
+
+/* =====================================================
+   STATISTIK
+===================================================== */
+
+.statistik {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 17px;
+
+    margin-top: 22px;
+}
+
+
+.stat-card {
+
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    border-radius: 17px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    border:
+        1px solid
+        rgba(120, 210, 240, 0.30);
+
+    box-shadow:
+        0 6px 20px
+        rgba(70, 170, 210, 0.12);
+
+    transition: 0.2s;
+}
+
+
+.stat-card:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(70, 170, 210, 0.20);
+}
+
+
+.stat-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    flex-shrink: 0;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d7f7ff,
+            #91def7
+        );
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 24px;
+}
+
+
+.stat-info {
+
+    min-width: 0;
+}
+
+
+.stat-info p {
+
+    color: #78919b;
+
+    font-size: 12px;
+
+    margin-bottom: 6px;
+}
+
+
+.stat-info h2 {
+
+    color: #257da2;
+
+    font-size: 20px;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   TRANSAKSI
+===================================================== */
+
+.transaksi-card {
+
+    margin-top: 22px;
+
+    background:
+        rgba(255, 255, 255, 0.95);
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    border:
+        1px solid
+        rgba(120, 210, 240, 0.30);
+
+    box-shadow:
+        0 7px 22px
+        rgba(70, 170, 210, 0.12);
+}
+
+
+.transaksi-header {
+
+    margin-bottom: 20px;
+}
+
+
+.transaksi-header h2 {
+
+    color: #247da2;
+
+    font-size: 20px;
+}
+
+
+.transaksi-header p {
+
+    color: #80959d;
+
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+
+/* =====================================================
+   TABEL
+===================================================== */
+
+.table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+table {
+
+    width: 100%;
+
+    min-width: 850px;
+
+    border-collapse: collapse;
+
+    font-size: 13px;
+}
+
+
+thead {
+
+    background:
+        linear-gradient(
+            90deg,
+            #d8f7ff,
+            #c4f0fc
+        );
+}
+
+
+th {
+
+    padding: 13px 12px;
+
+    text-align: left;
+
+    color: #277a9c;
+
+    font-weight: bold;
+
+    border-bottom:
+        2px solid #b6e5f2;
+}
+
+
+td {
+
+    padding: 13px 12px;
+
+    color: #526a73;
+
+    border-bottom:
+        1px solid #edf3f5;
+}
+
+
+tbody tr {
+
+    transition: 0.15s;
+}
+
+
+tbody tr:hover {
+
+    background: #f3fcff;
+}
+
+
+th:first-child,
+td:first-child {
+
+    width: 55px;
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status {
+
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+.status.selesai {
+
+    background: #dff8e9;
+
+    color: #26945a;
+}
+
+
+.status.masuk {
+
+    background: #dff5ff;
+
+    color: #278bb5;
+}
+
+
+/* =====================================================
+   KOSONG
+===================================================== */
+
+.kosong {
+
+    text-align: center;
+
+    padding: 30px;
+
+    color: #899ba2;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 950px) {
+
+    .statistik {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+  @media (max-width: 650px) {
+
+    .owner-container {
+
+        width: 92%;
+
+        padding:
+            20px 0 40px;
+    }
+
+    .owner-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 13px;
+
+        padding: 18px;
+    }
+
+    .judul h1 {
+
+        font-size: 19px;
+    }
+
+    .owner-user {
+
+        width: 100%;
+
+        justify-content:
+            space-between;
+    }
+
+    .welcome-card {
+
+        padding: 20px;
+    }
+
+    .welcome-card h2 {
+
+        font-size: 18px;
+    }
+
+    .shine-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 18px;
+        flex-shrink: 0;
+    }
+
+    .statistik {
+
+        grid-template-columns: 1fr;
+    }
+
+    .transaksi-card {
+
+        padding: 18px;
+    }
+
+
+    .owner-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 13px;
+
+        padding: 18px;
+    }
+
+
+    .judul h1 {
+
+        font-size: 19px;
+    }
+
+
+    .owner-user {
+
+        width: 100%;
+
+        justify-content:
+            space-between;
+    }
+
+
+    .welcome-card {
+
+        padding: 20px;
+    }
+
+
+    .welcome-card h2 {
+
+        font-size: 18px;
+    }
+
+
+    .statistik {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .transaksi-card {
+
+        padding: 18px;
+    }
+
+}
+/* =========================
+   FILTER REKAP TRANSAKSI
+========================= */
+
+.filter-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 18px;
+    align-items: end;
+    margin-top: 20px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #40545c;
+}
+
+.filter-group input {
+    width: 100%;
+    min-height: 45px;
+    padding: 10px 14px;
+    border: 1px solid #cfe5ed;
+    border-radius: 10px;
+    background: #fbfeff;
+    color: #40545c;
+    font-size: 14px;
+    outline: none;
+}
+
+.filter-group input:focus {
+    border-color: #269bc5;
+    box-shadow: 0 0 0 3px rgba(38, 155, 197, 0.10);
+}
+
+.filter-action button {
+    min-height: 45px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #269bc5;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.filter-action button:hover {
+    background: #167da5;
+}
+
+
+/* =========================
+   RESPONSIVE HP
+========================= */
+
+@media (max-width: 800px) {
+
+    .filter-form {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .filter-group input {
+        min-height: 46px;
+    }
+
+    .filter-action {
+        width: 100%;
+    }
+
+    .filter-action button {
+        width: 100%;
+    }
+}

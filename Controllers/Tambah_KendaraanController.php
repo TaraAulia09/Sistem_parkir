@@ -21,6 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 }
 
 
+// Ambil ID user dari Admin yang sedang login
+$id_user = $_SESSION['id_user'];
+
+
 // Ambil data dari form
 $plat_nomor = $_POST['plat_nomor'];
 $jenis_kendaraan = $_POST['jenis_kendaraan'];
@@ -34,6 +38,7 @@ $kendaraanModel = new KendaraanModel($koneksi);
 
 // Simpan kendaraan
 $simpan = $kendaraanModel->tambah(
+    $id_user,
     $plat_nomor,
     $jenis_kendaraan,
     $warna,
@@ -41,7 +46,6 @@ $simpan = $kendaraanModel->tambah(
 );
 
 
-// Cek hasil
 if ($simpan) {
 
     header("Location: ../View/Kendaraan.php");
@@ -49,7 +53,7 @@ if ($simpan) {
 
 } else {
 
-    die("Gagal menambahkan kendaraan: " . mysqli_error($koneksi));
+    die("Gagal menambahkan kendaraan.");
 
 }
 
