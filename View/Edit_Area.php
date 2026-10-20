@@ -61,7 +61,7 @@ $data = mysqli_fetch_assoc($query);
     <title>Edit Area Parkir</title>
 
     <link rel="stylesheet"
-          href="../Assets/Css/Tambah.css?v=101">
+          href="../Assets/Css/Tambah.css?v=8">
 
 </head>
 

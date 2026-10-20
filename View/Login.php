@@ -18,7 +18,7 @@
     }
     ?>
 
-    <form action="../Controllers/LoginController.php" method="POST">
+    <form action="../Controllers/C_Login.php" method="POST">
 
         <label>Username</label>
 

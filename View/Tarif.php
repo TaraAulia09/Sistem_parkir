@@ -13,18 +13,11 @@ if (strtolower($_SESSION['role']) != 'admin') {
 }
 
 require_once __DIR__ . '/../Config/Koneksi.php';
+require_once __DIR__ . '/../Controllers/C_Tarif.php';
 
-
-// =========================
-// AMBIL DATA TARIF
-// =========================
-
-$ambil_tarif = mysqli_query(
-    $koneksi,
-    "SELECT *
-     FROM Tabel_tarif
-     ORDER BY Id_tarif ASC"
-);
+// Panggil Controller
+$controller = new C_Tarif($koneksi);
+$ambil_tarif = $controller->getAllTarif();
 
 if (!$ambil_tarif) {
     die(
@@ -33,11 +26,7 @@ if (!$ambil_tarif) {
     );
 }
 
-
-// =========================
-// TOTAL TARIF
-// =========================
-
+// Hitung total tarif
 $total_tarif = mysqli_num_rows($ambil_tarif);
 
 ?>
@@ -58,7 +47,7 @@ $total_tarif = mysqli_num_rows($ambil_tarif);
 
     <!-- PAKAI CSS YANG SAMA DENGAN PENGGUNA -->
 
-    <link rel="stylesheet" href="../Assets/Css/Kendaraan1.css?v=3">
+    <link rel="stylesheet" href="../Assets/Css/CRUD.css?v=3">
 
 </head>
 

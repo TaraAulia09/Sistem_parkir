@@ -1,6 +1,6 @@
 <?php
 
-class TransaksiModel
+class M_Transaksi
 {
     private $koneksi;
 
@@ -270,35 +270,40 @@ class TransaksiModel
     ========================= */
 
     public function hitungDurasi($id_parkir)
-    {
-        $id_parkir = intval($id_parkir);
+{
+    $id_parkir = intval($id_parkir);
 
-        $query = mysqli_query(
-            $this->koneksi,
-            "SELECT
-                GREATEST(
-                    1,
-                    CEIL(
-                        TIMESTAMPDIFF(
-                            MINUTE,
-                            Waktu_masuk,
-                            NOW()
-                        ) / 60
-                    )
-                ) AS durasi
-             FROM Tabel_transaksi
-             WHERE Id_parkir = $id_parkir
-             LIMIT 1"
-        );
+    $query = mysqli_query(
+        $this->koneksi,
+        "SELECT
+            GREATEST(
+                1,
+                CEIL(
+                    TIMESTAMPDIFF(
+                        SECOND,
+                        Waktu_masuk,
+                        NOW()
+                    ) / 3600
+                )
+            ) AS durasi
+         FROM Tabel_transaksi
+         WHERE Id_parkir = $id_parkir
+         AND LOWER(Status) = 'masuk'
+         LIMIT 1"
+    );
 
-        if (!$query) {
-            return 1;
-        }
-
-        $data = mysqli_fetch_assoc($query);
-
-        return intval($data['durasi'] ?? 1);
+    if (!$query) {
+        return false;
     }
+
+    $data = mysqli_fetch_assoc($query);
+
+    if (!$data) {
+        return false;
+    }
+
+    return (int) $data['durasi'];
+}
 
 
     /* =========================
@@ -368,6 +373,7 @@ class TransaksiModel
                 k.Jenis_kendaraan,
                 k.Warna,
                 k.Pemilik,
+                a.Nama_area,
                 t.Waktu_masuk,
                 t.Waktu_keluar,
                 t.Durasi_jam,
@@ -376,6 +382,8 @@ class TransaksiModel
              FROM Tabel_transaksi AS t
              LEFT JOIN Tabel_kendaraan AS k
                 ON t.Id_kendaraan = k.Id_kendaraan
+             LEFT JOIN Tabel_area_parkir AS a
+                ON t.Id_area = a.Id_area_parkir
              ORDER BY t.Id_parkir DESC"
         );
     }

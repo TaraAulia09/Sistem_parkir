@@ -11,7 +11,7 @@ if (
 }
 
 require_once __DIR__ . '/../Config/Koneksi.php';
-require_once __DIR__ . '/../Models/KendaraanModel.php';
+require_once __DIR__ . '/../Models/M_Kendaraan.php';
 
 
 // Pastikan data dikirim dari form
@@ -33,11 +33,11 @@ $pemilik = $_POST['pemilik'];
 
 
 // Buat objek Model
-$kendaraanModel = new KendaraanModel($koneksi);
+$M_kendaraan = new M_Kendaraan($koneksi);
 
 
 // Simpan kendaraan
-$simpan = $kendaraanModel->tambah(
+$simpan = $M_kendaraan->tambah(
     $id_user,
     $plat_nomor,
     $jenis_kendaraan,

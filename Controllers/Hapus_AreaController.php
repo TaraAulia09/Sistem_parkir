@@ -11,66 +11,39 @@ if (
 }
 
 require_once __DIR__ . '/../Config/Koneksi.php';
+require_once __DIR__ . '/../Models/M_Area.php';
 
+// Cek ID area
+$id_area = filter_var(
+    $_GET['id'] ?? '',
+    FILTER_VALIDATE_INT
+);
 
-// Cek ID
-if (!isset($_GET['id'])) {
+if ($id_area === false || $id_area === null || $id_area < 1) {
     header("Location: ../View/Area_Parkir.php");
     exit;
 }
 
-$id_area = (int) $_GET['id'];
-
+// Panggil Model
+$model = new M_Area($koneksi);
 
 // Cek apakah area sudah digunakan transaksi
-$cek = mysqli_query(
-    $koneksi,
-    "SELECT Id_parkir
-     FROM Tabel_transaksi
-     WHERE Id_area = '$id_area'
-     LIMIT 1"
-);
-
-if (!$cek) {
-    die(
-        "Gagal mengecek transaksi: "
-        . mysqli_error($koneksi)
-    );
-}
-
-
-// Jika sudah digunakan
-if (mysqli_num_rows($cek) > 0) {
-
+if ($model->cekTransaksiArea($id_area)) {
     echo "<script>
         alert('Area tidak dapat dihapus karena sudah digunakan dalam transaksi.');
         window.location.href='../View/Area_Parkir.php';
     </script>";
-
     exit;
 }
 
-
-// Jika belum digunakan, hapus
-$hapus = mysqli_query(
-    $koneksi,
-    "DELETE FROM Tabel_area_parkir
-     WHERE Id_area_parkir = '$id_area'"
-);
-
+// Hapus area melalui Model
+$hapus = $model->hapusArea($id_area);
 
 if ($hapus) {
-
     header("Location: ../View/Area_Parkir.php");
     exit;
-
 } else {
-
-    die(
-        "Gagal menghapus area: "
-        . mysqli_error($koneksi)
-    );
-
+    die("Gagal menghapus area.");
 }
 
 ?>

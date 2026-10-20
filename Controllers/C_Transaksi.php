@@ -1,14 +1,14 @@
 <?php
 
-require_once "../Models/TransaksiModel.php";
+require_once "../Models/M_Transaksi.php";
 
-class TransaksiController
+class C_Transaksi
 {
     private $model;
 
     public function __construct($koneksi)
     {
-        $this->model = new TransaksiModel($koneksi);
+        $this->model = new M_Transaksi($koneksi);
     }
 
     public function simpanMasuk($id_user)
@@ -20,7 +20,7 @@ class TransaksiController
             $this->redirect("Data belum lengkap");
         }
 
-        $kendaraan = $this->model->getKendaraanById($id_kendaraan);
+        $kendaraan = $this->model->getkendaraanById($id_kendaraan);
 
         if (!$kendaraan) {
             $this->redirect("Kendaraan tidak ditemukan");

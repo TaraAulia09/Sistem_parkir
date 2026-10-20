@@ -57,7 +57,7 @@ $data = mysqli_fetch_assoc($hasil);
 
     <title>Edit Kendaraan</title>
 
-    <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=101">
+    <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=6">
 
 </head>
 

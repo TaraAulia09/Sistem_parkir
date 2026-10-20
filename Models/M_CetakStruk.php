@@ -1,6 +1,6 @@
 <?php
 
-class CetakStrukModel
+class M_CetakStruk
 {
     private $koneksi;
 
@@ -22,6 +22,7 @@ class CetakStrukModel
                 k.Jenis_kendaraan,
                 k.Warna,
                 k.Pemilik,
+                a.Nama_area,
                 t.Waktu_masuk,
                 t.Waktu_keluar,
                 t.Durasi_jam,
@@ -31,6 +32,9 @@ class CetakStrukModel
 
             LEFT JOIN Tabel_kendaraan AS k
                 ON t.Id_kendaraan = k.Id_kendaraan
+
+            LEFT JOIN Tabel_area_parkir AS a
+                ON t.Id_area = a.Id_area_parkir
 
             WHERE t.Status = 'Keluar'
 
@@ -54,12 +58,12 @@ class CetakStrukModel
                 k.Jenis_kendaraan,
                 k.Warna,
                 k.Pemilik,
+                a.Nama_area,
                 t.Waktu_masuk,
                 t.Waktu_keluar,
                 t.Durasi_jam,
                 t.Biaya_total,
                 t.Status,
-                a.Nama_area,
                 tr.Tarif_per_jam
 
             FROM Tabel_transaksi AS t

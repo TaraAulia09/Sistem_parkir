@@ -3,7 +3,7 @@
 session_start();
 
 require_once "../Config/Koneksi.php";
-require_once "../Controllers/CetakStrukController.php";
+require_once "../Controllers/C_CetakStruk.php";
 
 
 // =========================
@@ -25,7 +25,7 @@ if (strtolower($_SESSION['role']) != 'petugas') {
 // BUAT CONTROLLER
 // =========================
 
-$controller = new CetakStrukController($koneksi);
+$controller = new C_CetakStruk($koneksi);
 
 
 // =========================
@@ -131,8 +131,10 @@ $query_transaksi = $controller->getTransaksiKeluar();
                         <th>Jenis Kendaraan</th>
                         <th>Warna</th>
                         <th>Pemilik</th>
+                        <th>Nama Area</th>
                         <th>Waktu Masuk</th>
                         <th>Waktu Keluar</th>
+                      <th>Durasi</th>
                         <th>Biaya</th>
                         <th>Aksi</th>
 
@@ -197,6 +199,14 @@ $query_transaksi = $controller->getTransaksiKeluar();
                             ?>
                         </td>
 
+                      <td>
+                         <?php
+                  echo htmlspecialchars(
+                $data['Nama_area'] ?? '-'
+                           );
+                          ?>
+                      </td>
+
                         <td>
                             <?php
                             echo htmlspecialchars(
@@ -212,6 +222,14 @@ $query_transaksi = $controller->getTransaksiKeluar();
                             );
                             ?>
                         </td>
+
+                      <td>
+                       <?php
+                  echo htmlspecialchars(
+                $data['Durasi_jam'] ?? '-'
+                        );
+                         ?> jam
+                      </td>
 
                         <td>
                             Rp<?php
@@ -359,7 +377,7 @@ $query_transaksi = $controller->getTransaksiKeluar();
 
 
                 <div>
-                    <span>Area Parkir</span>
+                    <span>Nama Area</span>
 
                     <strong>
                         <?php
@@ -401,15 +419,13 @@ $query_transaksi = $controller->getTransaksiKeluar();
                     <span>Durasi</span>
 
                     <strong>
-                        <?php
-                        echo $struk['Durasi_jam'];
-                        ?> jam
+                        <?php echo htmlspecialchars($struk['Durasi_jam']); ?> jam
                     </strong>
                 </div>
 
 
                 <div>
-                    <span>Tarif / Jam</span>
+                    <span>Tarif</span>
 
                     <strong>
                         Rp<?php

@@ -1,45 +1,37 @@
 <?php
-
 session_start();
 
-if (!isset($_SESSION['role'])) {
-    header("Location: Login.php?pesan=Silakan Login Dulu!");
-    exit;
-}
-
-if (strtolower($_SESSION['role']) != 'admin') {
-    header("Location: Login.php?pesan=Anda Bukan Admin!");
-    exit;
-}
-
 require_once __DIR__ . '/../Config/Koneksi.php';
+require_once __DIR__ . '/../Controllers/C_Kendaraan.php';
 
+// Cek login
+if (!isset($_SESSION['role'])) {
+    header(
+        "Location: Login.php?pesan=" .
+        urlencode("Silakan Login Dulu!")
+    );
+    exit;
+}
 
-// =========================
-// AMBIL DATA KENDARAAN
-// =========================
+// Cek hak akses Admin
+if (strtolower($_SESSION['role']) !== 'admin') {
+    header(
+        "Location: Login.php?pesan=" .
+        urlencode("Anda Bukan Admin!")
+    );
+    exit;
+}
 
-$ambil_kendaraan = mysqli_query(
-    $koneksi,
-    "SELECT *
-     FROM Tabel_kendaraan
-     ORDER BY Id_kendaraan ASC"
-);
+// Panggil Controller
+$controller = new C_Kendaraan($koneksi);
+$ambil_kendaraan = $controller->getAllKendaraan();
 
 if (!$ambil_kendaraan) {
-    die(
-        "Gagal mengambil data kendaraan: "
-        . mysqli_error($koneksi)
-    );
+    die("Gagal mengambil data kendaraan.");
 }
 
-
-// =========================
-// TOTAL KENDARAAN
-// =========================
-
+// Hitung total kendaraan
 $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
-
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +49,7 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
     <title>Data Kendaraan - Admin</title>
 
     <!-- CSS SAMA DENGAN PENGGUNA -->
-    <link rel="stylesheet" href="../Assets/Css/Kendaraan1.css">
+    <link rel="stylesheet" href="../Assets/Css/CRUD.css?v=2">
     
 
 </head>
@@ -281,13 +273,12 @@ $total_kendaraan = mysqli_num_rows($ambil_kendaraan);
 
 
                             <a
-                                href="../Controllers/Hapus_KendaraanController.php?id=<?php echo $row['Id_kendaraan']; ?>"
-                                class="btn-hapus"
-                                onclick="return confirm('Yakin ingin menghapus kendaraan ini?');"
-                            >
-                                Hapus
-                            </a>
+    href="../Controllers/Hapus_KendaraanController.php?id=<?php echo $row['Id_kendaraan']; ?>"
+    class="btn-hapus"
+    onclick="return confirm('Yakin ingin menghapus kendaraan ini?');"
 
+  > Hapus
+                            </a>
                         </td>
 
                     </tr>

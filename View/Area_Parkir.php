@@ -13,24 +13,17 @@ if (strtolower($_SESSION['role']) != 'admin') {
 }
 
 require_once __DIR__ . '/../Config/Koneksi.php';
+require_once __DIR__ . '/../Controllers/C_Area.php';
 
-
-/* AMBIL DATA AREA */
-
-$ambil_area = mysqli_query(
-    $koneksi,
-    "SELECT *
-     FROM Tabel_area_parkir
-     ORDER BY Id_area_parkir ASC"
-);
+// Panggil Controller
+$controller = new C_Area($koneksi);
+$ambil_area = $controller->getAllArea();
 
 if (!$ambil_area) {
-    die("Gagal mengambil data area: " . mysqli_error($koneksi));
+    die("Gagal mengambil data area.");
 }
 
-
-/* TOTAL AREA */
-
+// Hitung total area
 $total_area = mysqli_num_rows($ambil_area);
 
 ?>
@@ -48,7 +41,7 @@ $total_area = mysqli_num_rows($ambil_area);
     <title>Area Parkir - Admin</title>
 
     <!-- PAKAI CSS KENDARAAN -->
-    <link rel="stylesheet" href="../Assets/Css/Kendaraan1.css?v=4">
+    <link rel="stylesheet" href="../Assets/Css/CRUD.css?v=4">
 
 </head>
 
@@ -184,11 +177,10 @@ $total_area = mysqli_num_rows($ambil_area);
 
 
                         <!-- TERISI -->
-                        <td>
-                            <?php
-                            echo $row['Terisi'];
-                            ?>
-                        </td>
+                      
+                             <td>
+    <?php echo $row['Terisi']; ?>
+                             </td>
 
 
                         <!-- TERSEDIA -->

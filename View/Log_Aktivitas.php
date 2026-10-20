@@ -2,44 +2,16 @@
 
 session_start();
 
-if (!isset($_SESSION['role'])) {
-    header("Location: Login.php?pesan=Silakan Login Dulu!");
-    exit;
-}
-
-if (strtolower($_SESSION['role']) != 'admin') {
-    header("Location: Login.php?pesan=Anda Bukan Admin!");
-    exit;
-}
-
 require_once __DIR__ . '/../Config/Koneksi.php';
+require_once __DIR__ . '/../Controllers/C_Log_Aktivitas.php';
 
+$controller = new C_Log_Aktivitas($koneksi);
+$controller->cekAkses();
 
-/* AMBIL DATA LOG AKTIVITAS */
+$dataLog = $controller->index();
 
-$query = mysqli_query(
-    $koneksi,
-    "SELECT
-        l.Id_log,
-        l.Id_user,
-        u.Nama_lengkap,
-        u.Username,
-        l.Aktifitas,
-        l.Waktu_aktivitas
-     FROM Tabel_log_aktivitas AS l
-     LEFT JOIN Tabel_user AS u
-        ON l.Id_user = u.Id_user
-     ORDER BY l.Id_log ASC"
-);
-
-if (!$query) {
-    die("Gagal mengambil data log aktivitas: " . mysqli_error($koneksi));
-}
-
-
-/* TOTAL LOG */
-
-$total_log = mysqli_num_rows($query);
+$logs = $dataLog['logs'];
+$total_log = $dataLog['total_log'];
 
 ?>
 
@@ -47,38 +19,31 @@ $total_log = mysqli_num_rows($query);
 <html lang="id">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Log Aktivitas - Parkir</title>
 
-    <link rel="stylesheet" href="../Assets/Css/Kendaraan1.css?v=8">
-
+    <link rel="stylesheet"
+          href="../Assets/Css/CRUD.css?v=5">
 </head>
 
 <body>
 
 <div class="kendaraan-container">
 
-
-    <!-- HEADER -->
-
     <div class="header">
 
         <div class="judul-aplikasi">
-
             <h1>Aplikasi Manajemen Parkir</h1>
-
         </div>
-
 
         <div class="user-info">
 
             <span>
-                <?php echo htmlspecialchars($_SESSION['username']); ?>
+                <?php
+                echo htmlspecialchars($_SESSION['username']);
+                ?>
             </span>
 
             <a href="Admin.php" class="btn-kembali">
@@ -88,9 +53,6 @@ $total_log = mysqli_num_rows($query);
         </div>
 
     </div>
-
-
-    <!-- TOTAL LOG -->
 
     <div class="total-card">
 
@@ -102,120 +64,74 @@ $total_log = mysqli_num_rows($query);
 
     </div>
 
-
-    <!-- TABEL LOG -->
-
     <div class="card">
 
         <div class="judul-tabel">
-
             <h2>Daftar Log Aktivitas</h2>
-
         </div>
-
 
         <div class="table-wrapper log-table-wrapper">
 
             <table>
 
                 <thead>
-
                     <tr>
-
                         <th>No</th>
-
                         <th>Pengguna</th>
-
                         <th>Aktivitas</th>
-
                         <th>Waktu Aktivitas</th>
-
                     </tr>
-
                 </thead>
-
 
                 <tbody>
 
-                <?php
+                <?php if (!empty($logs)): ?>
 
-                $no = 1;
+                    <?php $no = 1; ?>
 
-                if (mysqli_num_rows($query) > 0):
+                    <?php foreach ($logs as $log): ?>
 
-                    while ($data = mysqli_fetch_assoc($query)):
+                        <tr>
 
-                ?>
+                            <td>
+                                <?php echo $no++; ?>
+                            </td>
 
-                    <tr>
-
-                        <td>
-                            <?php echo $no++; ?>
-                        </td>
-
-
-                        <td>
-
-                            <?php
-
-                            if (!empty($data['Nama_lengkap'])) {
-
+                            <td>
+                                <?php
                                 echo htmlspecialchars(
-                                    $data['Nama_lengkap']
+                                    $log['Nama_lengkap']
+                                    ?: 'Pengguna tidak ditemukan'
                                 );
+                                ?>
+                            </td>
 
-                            } else {
+                            <td>
+                                <?php
+                                echo htmlspecialchars(
+                                    $log['Aktifitas'] ?? ''
+                                );
+                                ?>
+                            </td>
 
-                                echo "Pengguna tidak ditemukan";
+                            <td>
+                                <?php
+                                echo htmlspecialchars(
+                                    $log['Waktu_aktivitas'] ?? ''
+                                );
+                                ?>
+                            </td>
 
-                            }
+                        </tr>
 
-                            ?>
+                    <?php endforeach; ?>
 
-                        </td>
-
-
-                        <td>
-
-                            <?php
-
-                            echo htmlspecialchars(
-                                $data['Aktifitas']
-                            );
-
-                            ?>
-
-                        </td>
-
-
-                        <td>
-
-                            <?php
-
-                            echo htmlspecialchars(
-                                $data['Waktu_aktivitas']
-                            );
-
-                            ?>
-
-                        </td>
-
-                    </tr>
-
-                <?php
-
-                    endwhile;
-
-                else:
-
-                ?>
+                <?php else: ?>
 
                     <tr>
-
                         <td colspan="4" class="kosong">
                             Belum ada log aktivitas.
                         </td>
-
                     </tr>
 
                 <?php endif; ?>
@@ -224,12 +140,11 @@ $total_log = mysqli_num_rows($query);
 
             </table>
 
-        </>
+        </div>
 
     </div>
 
 </div>
 
 </body>
-
 </html>

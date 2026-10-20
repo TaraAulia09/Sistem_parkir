@@ -1,57 +1,44 @@
 <?php
 
-require_once "../Models/OwnerModel.php";
+require_once "../Models/M_Owner.php";
 
-class OwnerController
+class C_Owner
 {
     private $model;
 
     public function __construct($koneksi)
     {
-        $this->model = new OwnerModel($koneksi);
+        $this->model = new M_Owner($koneksi);
     }
 
-
-    // =========================
-    // CEK LOGIN OWNER
-    // =========================
+    // CEK AKSES OWNER
     public function cekAkses()
     {
         if (!isset($_SESSION['role'])) {
-            header(
-                "Location: Login.php?pesan=Silakan Login Dulu!"
-            );
+            header("Location: Login.php?pesan=Silakan Login Dulu!");
             exit;
         }
 
-        if (
-            strtolower($_SESSION['role']) != 'owner'
-        ) {
-            header(
-                "Location: Login.php?pesan=Anda Bukan Owner!"
-            );
+        if (strtolower($_SESSION['role']) != 'owner') {
+            header("Location: Login.php?pesan=Anda Bukan Owner!");
             exit;
         }
     }
 
-
-    // =========================
-    // AMBIL REKAP
-    // =========================
+    // AMBIL REKAP TRANSAKSI
     public function getRekap(
         $tanggal_mulai,
-        $tanggal_akhir
+        $tanggal_akhir,
+        $nama_area = ''
     ) {
         return $this->model->getRekapTransaksi(
             $tanggal_mulai,
-            $tanggal_akhir
+            $tanggal_akhir,
+            $nama_area
         );
     }
 
-
-    // =========================
     // TOTAL TRANSAKSI
-    // =========================
     public function getTotalTransaksi(
         $tanggal_mulai,
         $tanggal_akhir
@@ -62,10 +49,7 @@ class OwnerController
         );
     }
 
-
-    // =========================
     // TOTAL PENDAPATAN
-    // =========================
     public function getTotalPendapatan(
         $tanggal_mulai,
         $tanggal_akhir
@@ -76,4 +60,5 @@ class OwnerController
         );
     }
 }
+
 ?>

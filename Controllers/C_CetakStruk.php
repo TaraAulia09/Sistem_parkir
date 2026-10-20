@@ -1,14 +1,14 @@
 <?php
 
-require_once "../Models/CetakStrukModel.php";
+require_once "../Models/M_CetakStruk.php";
 
-class CetakStrukController
+class C_CetakStruk
 {
     private $model;
 
     public function __construct($koneksi)
     {
-        $this->model = new CetakStrukModel($koneksi);
+        $this->model = new M_CetakStruk($koneksi);
     }
 
 

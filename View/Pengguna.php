@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (!isset($_SESSION['role'])) {
@@ -13,38 +12,23 @@ if (strtolower($_SESSION['role']) != 'admin') {
 }
 
 require_once __DIR__ . '/../Config/Koneksi.php';
+require_once __DIR__ . '/../Controllers/C_Pengguna.php';
 
+$controller = new C_Pengguna($koneksi);
 
-/* TOTAL PENGGUNA */
-
-$ambil_user = mysqli_query(
-    $koneksi,
-    "SELECT COUNT(*) AS total FROM Tabel_user"
-);
-
-if (!$ambil_user) {
-    die("Gagal menghitung pengguna: " . mysqli_error($koneksi));
-}
-
-$data_total = mysqli_fetch_assoc($ambil_user);
-
-$total_pengguna = $data_total['total'];
-
-
-/* AMBIL DATA PENGGUNA */
-
-$query = mysqli_query(
-    $koneksi,
-    "SELECT Id_user, Nama_lengkap, Username, Role
-     FROM Tabel_user
-     ORDER BY Id_user ASC"
-);
+$query = $controller->getAllPengguna();
 
 if (!$query) {
-    die("Gagal mengambil data pengguna: " . mysqli_error($koneksi));
+    die("Gagal mengambil data pengguna.");
 }
 
+$total_pengguna = $controller->getTotalPengguna();
+
+if ($total_pengguna === false) {
+    die("Gagal menghitung total pengguna.");
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">
@@ -58,7 +42,7 @@ if (!$query) {
 
     <title>Data Pengguna - Parkir</title>
 
-    <link rel="stylesheet" href="../Assets/Css/Kendaraan1.css?v=2">
+    <link rel="stylesheet" href="../Assets/Css/CRUD.css?v=1">
 
 </head>
 
@@ -94,7 +78,6 @@ if (!$query) {
       <!-- ================= WELCOME ================= -->
 
     <div class="welcome-card">
-    <div>
 
 
     <!-- TOTAL PENGGUNA -->
@@ -239,8 +222,6 @@ if (!$query) {
         </div>
 
     </div>
-
-</>
 
 </body>
 </html>

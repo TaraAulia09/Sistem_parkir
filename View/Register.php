@@ -17,7 +17,7 @@
     }
     ?>
 
-    <form action="../Controllers/RegisterController.php" method="POST">
+    <form action="../Controllers/C_Register.php" method="POST">
 
         <label>Nama Lengkap</label>
         <input type="text" name="nama_lengkap" required placeholder="Nama lengkap">
@@ -37,7 +37,7 @@
         </select>
 
         <button type="submit">
-            Daftar Akun
+            Daftar akun
         </button>
 
     </form>

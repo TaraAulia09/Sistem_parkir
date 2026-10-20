@@ -1,6 +1,6 @@
 <?php
 
-class OwnerModel
+class M_Owner
 {
     private $koneksi;
 
@@ -9,15 +9,14 @@ class OwnerModel
         $this->koneksi = $koneksi;
     }
 
-
     // =========================
-    // REKAP TRANSAKSI
+    // REKAP TRANSAKSI + FILTER AREA
     // =========================
     public function getRekapTransaksi(
         $tanggal_mulai,
-        $tanggal_akhir
+        $tanggal_akhir,
+        $nama_area = ''
     ) {
-
         $tanggal_mulai = mysqli_real_escape_string(
             $this->koneksi,
             $tanggal_mulai
@@ -28,6 +27,19 @@ class OwnerModel
             $tanggal_akhir
         );
 
+        $nama_area = mysqli_real_escape_string(
+            $this->koneksi,
+            $nama_area
+        );
+
+        // Jika memilih area tertentu, tambahkan filter.
+        // Jika memilih Semua Area, tampilkan semua area.
+        $filter_area = '';
+
+        if ($nama_area !== '') {
+            $filter_area = " AND a.Nama_area = '$nama_area' ";
+        }
+
         $query = mysqli_query(
             $this->koneksi,
 
@@ -37,6 +49,7 @@ class OwnerModel
                 k.Jenis_kendaraan,
                 k.Warna,
                 k.Pemilik,
+                a.Nama_area,
                 t.Waktu_masuk,
                 t.Waktu_keluar,
                 t.Durasi_jam,
@@ -48,6 +61,9 @@ class OwnerModel
             LEFT JOIN Tabel_kendaraan AS k
                 ON t.Id_kendaraan = k.Id_kendaraan
 
+            LEFT JOIN Tabel_area_parkir AS a
+                ON t.Id_area = a.Id_area_parkir
+
             WHERE t.Waktu_masuk >= '$tanggal_mulai 00:00:00'
 
             AND t.Waktu_masuk < DATE_ADD(
@@ -55,12 +71,13 @@ class OwnerModel
                 INTERVAL 1 DAY
             )
 
+            $filter_area
+
             ORDER BY t.Id_parkir DESC"
         );
 
         return $query;
     }
-
 
     // =========================
     // TOTAL TRANSAKSI
@@ -69,7 +86,6 @@ class OwnerModel
         $tanggal_mulai,
         $tanggal_akhir
     ) {
-
         $tanggal_mulai = mysqli_real_escape_string(
             $this->koneksi,
             $tanggal_mulai
@@ -84,11 +100,8 @@ class OwnerModel
             $this->koneksi,
 
             "SELECT COUNT(*) AS total
-
             FROM Tabel_transaksi
-
             WHERE Waktu_masuk >= '$tanggal_mulai 00:00:00'
-
             AND Waktu_masuk < DATE_ADD(
                 '$tanggal_akhir',
                 INTERVAL 1 DAY
@@ -101,11 +114,8 @@ class OwnerModel
 
         $data = mysqli_fetch_assoc($query);
 
-        return intval(
-            $data['total'] ?? 0
-        );
+        return (int) ($data['total'] ?? 0);
     }
-
 
     // =========================
     // TOTAL PENDAPATAN
@@ -114,7 +124,6 @@ class OwnerModel
         $tanggal_mulai,
         $tanggal_akhir
     ) {
-
         $tanggal_mulai = mysqli_real_escape_string(
             $this->koneksi,
             $tanggal_mulai
@@ -128,21 +137,13 @@ class OwnerModel
         $query = mysqli_query(
             $this->koneksi,
 
-            "SELECT
-                COALESCE(
-                    SUM(Biaya_total),
-                    0
-                ) AS total
-
+            "SELECT COALESCE(SUM(Biaya_total), 0) AS total
             FROM Tabel_transaksi
-
             WHERE Waktu_masuk >= '$tanggal_mulai 00:00:00'
-
             AND Waktu_masuk < DATE_ADD(
                 '$tanggal_akhir',
                 INTERVAL 1 DAY
             )
-
             AND LOWER(Status) = 'keluar'"
         );
 
@@ -155,4 +156,5 @@ class OwnerModel
         return $data['total'] ?? 0;
     }
 }
+
 ?>

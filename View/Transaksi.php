@@ -3,76 +3,52 @@
 session_start();
 
 require_once "../Config/Koneksi.php";
-require_once "../Controllers/TransaksiController.php";
-
+require_once "../Controllers/C_Transaksi.php";
 
 /* =========================
    CEK LOGIN PETUGAS
 ========================= */
 
 if (!isset($_SESSION['role'])) {
-    header(
-        "Location: Login.php?pesan=Silakan Login Dulu!"
-    );
+    header("Location: Login.php?pesan=Silakan Login Dulu!");
     exit;
 }
 
-if (
-    strtolower($_SESSION['role'])
-    != 'petugas'
-) {
-    header(
-        "Location: Login.php?pesan=Anda Bukan Petugas!"
-    );
+if (strtolower($_SESSION['role']) != 'petugas') {
+    header("Location: Login.php?pesan=Anda Bukan Petugas!");
     exit;
 }
-
 
 /* =========================
    CONTROLLER
 ========================= */
 
-$controller =
-    new TransaksiController($koneksi);
-
-$id_user =
-    $_SESSION['id_user'] ?? 0;
-
+$controller = new C_Transaksi($koneksi);
+$id_user = $_SESSION['id_user'] ?? 0;
 
 /* =========================
    PROSES SIMPAN MASUK
 ========================= */
 
 if (isset($_POST['simpan_masuk'])) {
-
-    $controller->simpanMasuk(
-        $id_user
-    );
+    $controller->simpanMasuk($id_user);
 }
-
 
 /* =========================
    PROSES KENDARAAN KELUAR
 ========================= */
 
 if (isset($_GET['keluar'])) {
-
     $controller->prosesKeluar();
 }
-
 
 /* =========================
    AMBIL DATA
 ========================= */
 
-$query_kendaraan =
-    $controller->getKendaraan();
-
-$query_area =
-    $controller->getArea();
-
-$query_transaksi =
-    $controller->getTransaksi();
+$query_kendaraan = $controller->getKendaraan();
+$query_area = $controller->getArea();
+$query_transaksi = $controller->getTransaksi();
 
 ?>
 
@@ -99,10 +75,7 @@ $query_transaksi =
 
 <div class="transaksi-container">
 
-
-    <!-- =========================
-         HEADER
-    ========================== -->
+    <!-- HEADER -->
 
     <div class="transaksi-header">
 
@@ -118,7 +91,6 @@ $query_transaksi =
 
         </div>
 
-
         <div class="header-kanan">
 
             <span>
@@ -129,32 +101,23 @@ $query_transaksi =
                 ?>
             </span>
 
-
             <a
                 href="Petugas.php"
                 class="btn-kembali">
-
                 ← Kembali
-
             </a>
-
 
             <a
                 href="Logout.php"
                 class="btn-keluar">
-
                 Keluar
-
             </a>
 
         </div>
 
     </div>
 
-
-    <!-- =========================
-         JUDUL
-    ========================== -->
+    <!-- JUDUL -->
 
     <div class="judul-halaman">
 
@@ -169,10 +132,7 @@ $query_transaksi =
 
     </div>
 
-
-    <!-- =========================
-         PESAN
-    ========================== -->
+    <!-- PESAN -->
 
     <?php if (isset($_GET['pesan'])): ?>
 
@@ -188,10 +148,7 @@ $query_transaksi =
 
     <?php endif; ?>
 
-
-    <!-- =========================
-         TAMBAH TRANSAKSI MASUK
-    ========================== -->
+    <!-- TAMBAH TRANSAKSI MASUK -->
 
     <div class="form-card">
 
@@ -201,18 +158,11 @@ $query_transaksi =
                 🚗 Transaksi Parkir Masuk
             </h2>
 
-            <p>
-                Pilih kendaraan dan area parkir.
-            </p>
-
         </div>
-
 
         <form method="POST">
 
-
             <div class="form-grid">
-
 
                 <!-- KENDARAAN -->
 
@@ -222,7 +172,6 @@ $query_transaksi =
                         Kendaraan
                     </label>
 
-
                     <select
                         name="id_kendaraan"
                         required>
@@ -231,18 +180,14 @@ $query_transaksi =
                             -- Pilih Kendaraan --
                         </option>
 
-
                         <?php
                         if (
-                            $query_kendaraan
-                            && mysqli_num_rows(
-                                $query_kendaraan
-                            ) > 0
+                            $query_kendaraan &&
+                            mysqli_num_rows($query_kendaraan) > 0
                         ):
 
                             while (
-                                $kendaraan =
-                                mysqli_fetch_assoc(
+                                $kendaraan = mysqli_fetch_assoc(
                                     $query_kendaraan
                                 )
                             ):
@@ -250,24 +195,18 @@ $query_transaksi =
 
                             <option
                                 value="<?php
-                                echo $kendaraan[
-                                    'Id_kendaraan'
-                                ];
+                                    echo intval(
+                                        $kendaraan['Id_kendaraan']
+                                    );
                                 ?>">
 
                                 <?php
                                 echo htmlspecialchars(
-                                    $kendaraan[
-                                        'Plat_nomor'
-                                    ]
+                                    ($kendaraan['Plat_nomor'] ?? '-')
                                     . " - "
-                                    . $kendaraan[
-                                        'Jenis_kendaraan'
-                                    ]
+                                    . ($kendaraan['Jenis_kendaraan'] ?? '-')
                                     . " - "
-                                    . $kendaraan[
-                                        'Pemilik'
-                                    ]
+                                    . ($kendaraan['Pemilik'] ?? '-')
                                 );
                                 ?>
 
@@ -275,14 +214,12 @@ $query_transaksi =
 
                         <?php
                             endwhile;
-
                         endif;
                         ?>
 
                     </select>
 
                 </div>
-
 
                 <!-- AREA -->
 
@@ -292,7 +229,6 @@ $query_transaksi =
                         Area Parkir
                     </label>
 
-
                     <select
                         name="id_area"
                         required>
@@ -301,45 +237,36 @@ $query_transaksi =
                             -- Pilih Area --
                         </option>
 
-
                         <?php
                         if (
-                            $query_area
-                            && mysqli_num_rows(
-                                $query_area
-                            ) > 0
+                            $query_area &&
+                            mysqli_num_rows($query_area) > 0
                         ):
 
                             while (
-                                $area =
-                                mysqli_fetch_assoc(
-                                    $query_area
-                                )
+                                $area = mysqli_fetch_assoc($query_area)
                             ):
 
                                 $tersedia =
-                                    $area['Kapasitas']
-                                    -
-                                    $area['Terisi'];
+                                    intval($area['Kapasitas'])
+                                    - intval($area['Terisi']);
                         ?>
 
                             <option
                                 value="<?php
-                                echo $area[
-                                    'Id_area_parkir'
-                                ];
+                                    echo intval(
+                                        $area['Id_area_parkir']
+                                    );
                                 ?>"
                                 <?php
-                                echo (
-                                    $tersedia <= 0
-                                )
-                                ? 'disabled'
-                                : '';
+                                    echo ($tersedia <= 0)
+                                        ? 'disabled'
+                                        : '';
                                 ?>>
 
                                 <?php
                                 echo htmlspecialchars(
-                                    $area['Nama_area']
+                                    ($area['Nama_area'] ?? '-')
                                     . " (Tersedia: "
                                     . $tersedia
                                     . ")"
@@ -350,7 +277,6 @@ $query_transaksi =
 
                         <?php
                             endwhile;
-
                         endif;
                         ?>
 
@@ -359,7 +285,6 @@ $query_transaksi =
                 </div>
 
             </div>
-
 
             <div class="form-action">
 
@@ -378,10 +303,7 @@ $query_transaksi =
 
     </div>
 
-
-    <!-- =========================
-         DATA TRANSAKSI
-    ========================== -->
+    <!-- DATA TRANSAKSI -->
 
     <div class="table-card">
 
@@ -391,13 +313,7 @@ $query_transaksi =
                 📋 Data Transaksi Parkir
             </h2>
 
-            <p>
-                Data transaksi yang tersimpan
-                di database.
-            </p>
-
         </div>
-
 
         <div class="table-wrapper">
 
@@ -406,53 +322,21 @@ $query_transaksi =
                 <thead>
 
                     <tr>
-
                         <th>No</th>
-
-                        <th>
-                            Plat Nomor
-                        </th>
-
-                        <th>
-                            Jenis Kendaraan
-                        </th>
-
-                        <th>
-                            Warna
-                        </th>
-
-                        <th>
-                            Pemilik
-                        </th>
-
-                        <th>
-                            Waktu Masuk
-                        </th>
-
-                        <th>
-                            Waktu Keluar
-                        </th>
-
-                        <th>
-                            Durasi
-                        </th>
-
-                        <th>
-                            Biaya
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th>
-                            Aksi
-                        </th>
-
+                        <th>Plat Nomor</th>
+                        <th>Jenis Kendaraan</th>
+                        <th>Warna</th>
+                        <th>Pemilik</th>
+                        <th>Nama Area</th>
+                        <th>Waktu Masuk</th>
+                        <th>Waktu Keluar</th>
+                        <th>Durasi</th>
+                        <th>Biaya</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
                     </tr>
 
                 </thead>
-
 
                 <tbody>
 
@@ -461,199 +345,134 @@ $query_transaksi =
                 $no = 1;
 
                 if (
-                    $query_transaksi
-                    &&
-                    mysqli_num_rows(
-                        $query_transaksi
-                    ) > 0
+                    $query_transaksi &&
+                    mysqli_num_rows($query_transaksi) > 0
                 ):
 
                     while (
-                        $data =
-                        mysqli_fetch_assoc(
-                            $query_transaksi
-                        )
+                        $data = mysqli_fetch_assoc($query_transaksi)
                     ):
 
                 ?>
 
                     <tr>
 
-
                         <!-- NO -->
 
                         <td>
-
-                            <?php
-                            echo $no++;
-                            ?>
-
+                            <?php echo $no++; ?>
                         </td>
-
 
                         <!-- PLAT -->
 
                         <td>
-
                             <?php
                             echo htmlspecialchars(
-                                $data[
-                                    'Plat_nomor'
-                                ]
-                                ?? '-'
+                                $data['Plat_nomor'] ?? '-'
                             );
                             ?>
-
                         </td>
-
 
                         <!-- JENIS -->
 
                         <td>
-
                             <?php
                             echo htmlspecialchars(
-                                $data[
-                                    'Jenis_kendaraan'
-                                ]
-                                ?? '-'
+                                $data['Jenis_kendaraan'] ?? '-'
                             );
                             ?>
-
                         </td>
-
 
                         <!-- WARNA -->
 
                         <td>
-
                             <?php
                             echo htmlspecialchars(
-                                $data[
-                                    'Warna'
-                                ]
-                                ?? '-'
+                                $data['Warna'] ?? '-'
                             );
                             ?>
-
                         </td>
-
 
                         <!-- PEMILIK -->
 
                         <td>
-
                             <?php
                             echo htmlspecialchars(
-                                $data[
-                                    'Pemilik'
-                                ]
-                                ?? '-'
+                                $data['Pemilik'] ?? '-'
                             );
                             ?>
-
                         </td>
 
+                        <!-- NAMA AREA -->
+
+                        <td>
+                            <?php
+                            echo htmlspecialchars(
+                                $data['Nama_area'] ?? '-'
+                            );
+                            ?>
+                        </td>
 
                         <!-- WAKTU MASUK -->
 
                         <td>
-
                             <?php
                             echo htmlspecialchars(
-                                $data[
-                                    'Waktu_masuk'
-                                ]
-                                ?? '-'
+                                $data['Waktu_masuk'] ?? '-'
                             );
                             ?>
-
                         </td>
-
 
                         <!-- WAKTU KELUAR -->
 
                         <td>
-
                             <?php
                             echo htmlspecialchars(
-                                $data[
-                                    'Waktu_keluar'
-                                ]
-                                ?? '-'
+                                $data['Waktu_keluar'] ?? '-'
                             );
                             ?>
-
                         </td>
-
 
                         <!-- DURASI -->
 
                         <td>
 
                             <?php
-
                             if (
-                                $data[
-                                    'Durasi_jam'
-                                ] !== null
+                                $data['Durasi_jam'] !== null
+                                && $data['Waktu_keluar'] !== null
                             ) {
-
-                                echo
-                                    $data[
-                                        'Durasi_jam'
-                                    ]
-                                    . " jam";
-
+                                echo htmlspecialchars(
+                                    (string) $data['Durasi_jam']
+                                ) . " jam";
                             } else {
-
                                 echo "-";
-
                             }
-
                             ?>
 
                         </td>
-
 
                         <!-- BIAYA -->
 
                         <td>
 
                             <?php
-
                             if (
-                                $data[
-                                    'Biaya_total'
-                                ] !== null
-                                &&
-                                $data[
-                                    'Biaya_total'
-                                ] > 0
+                                $data['Biaya_total'] !== null
+                                && $data['Waktu_keluar'] !== null
                             ) {
-
-                                echo
-                                    'Rp'
-                                    .
-                                    number_format(
-                                        $data[
-                                            'Biaya_total'
-                                        ],
-                                        0,
-                                        ',',
-                                        '.'
-                                    );
-
+                                echo 'Rp' . number_format(
+                                    $data['Biaya_total'],
+                                    0,
+                                    ',',
+                                    '.'
+                                );
                             } else {
-
                                 echo "-";
-
                             }
-
                             ?>
 
                         </td>
-
 
                         <!-- STATUS -->
 
@@ -661,33 +480,24 @@ $query_transaksi =
 
                             <?php
                             if (
-                                strtolower(
-                                    $data['Status']
-                                )
+                                strtolower($data['Status'] ?? '')
                                 == 'masuk'
                             ):
                             ?>
 
-                                <span
-                                    class="status masuk">
-
+                                <span class="status masuk">
                                     Masuk
-
                                 </span>
 
                             <?php else: ?>
 
-                                <span
-                                    class="status keluar">
-
+                                <span class="status keluar">
                                     Keluar
-
                                 </span>
 
                             <?php endif; ?>
 
                         </td>
-
 
                         <!-- AKSI -->
 
@@ -695,25 +505,19 @@ $query_transaksi =
 
                             <?php
                             if (
-                                strtolower(
-                                    $data['Status']
-                                )
+                                strtolower($data['Status'] ?? '')
                                 == 'masuk'
                             ):
                             ?>
 
                                 <a
                                     href="Transaksi.php?keluar=<?php
-                                    echo $data[
-                                        'Id_parkir'
-                                    ];
+                                        echo intval(
+                                            $data['Id_parkir']
+                                        );
                                     ?>"
                                     class="btn-keluar-kendaraan"
-                                    onclick="
-                                        return confirm(
-                                            'Yakin kendaraan ini keluar?'
-                                        );
-                                    ">
+                                    onclick="return confirm('Yakin kendaraan ini keluar?');">
 
                                     Keluar
 
@@ -721,11 +525,8 @@ $query_transaksi =
 
                             <?php else: ?>
 
-                                <span
-                                    class="selesai">
-
+                                <span class="selesai">
                                     Selesai
-
                                 </span>
 
                             <?php endif; ?>
@@ -745,7 +546,7 @@ $query_transaksi =
                     <tr>
 
                         <td
-                            colspan="11"
+                            colspan="12"
                             class="data-kosong">
 
                             Belum ada transaksi parkir.

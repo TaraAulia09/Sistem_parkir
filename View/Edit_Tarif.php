@@ -49,7 +49,7 @@ $data = mysqli_fetch_assoc($query);
 
     <title>Edit Tarif</title>
 
-    <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=101">
+    <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=7">
 
 </head>
 

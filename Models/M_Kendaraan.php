@@ -1,6 +1,6 @@
 <?php
 
-class KendaraanModel
+class M_Kendaraan
 {
     private $koneksi;
 
@@ -15,15 +15,16 @@ class KendaraanModel
     // =========================
 
     public function getAll()
-    {
-        $query = mysqli_query(
-            $this->koneksi,
-            "SELECT * FROM Tabel_kendaraan
-             ORDER BY Id_kendaraan ASC"
-        );
+{
+    $query = mysqli_query(
+        $this->koneksi,
+        "SELECT * FROM Tabel_kendaraan
+         WHERE Status_aktif = 1
+         ORDER BY Id_kendaraan ASC"
+    );
 
-        return $query;
-    }
+    return $query;
+}
 
 
     // =========================
@@ -56,7 +57,8 @@ class KendaraanModel
     // TAMBAH KENDARAAN
     // =========================
 
-    public function tambah(
+    
+public function tambah(
     $id_user,
     $plat_nomor,
     $jenis_kendaraan,
@@ -66,8 +68,8 @@ class KendaraanModel
     $query = mysqli_prepare(
         $this->koneksi,
         "INSERT INTO Tabel_kendaraan
-        (Id_user, Plat_nomor, Jenis_kendaraan, Warna, Pemilik)
-        VALUES (?, ?, ?, ?, ?)"
+        (Id_user, Plat_nomor, Jenis_kendaraan, Warna, Pemilik, Status_aktif)
+        VALUES (?, ?, ?, ?, ?, 1)"
     );
 
     if (!$query) {
@@ -91,8 +93,10 @@ class KendaraanModel
         );
     }
 
+    mysqli_stmt_close($query);
+
     return true;
-    }
+}
 
 
     // =========================

@@ -13,67 +13,23 @@ if (strtolower($_SESSION['role']) != 'admin') {
 }
 
 require_once __DIR__ . '/../Config/Koneksi.php';
+require_once __DIR__ . '/../Controllers/C_Pengguna.php';
 
+$controller = new C_Pengguna($koneksi);
 
-// Cek ID pengguna
-if (!isset($_GET['id'])) {
+// Periksa ID dari URL
+if (!isset($_GET['id']) || !ctype_digit($_GET['id'])) {
     header("Location: Pengguna.php");
     exit;
 }
 
-$id = $_GET['id'];
+$id = (int) $_GET['id'];
 
-
-// Ambil data pengguna
-$query = mysqli_query(
-    $koneksi,
-    "SELECT *
-     FROM Tabel_user
-     WHERE Id_user='$id'"
-);
-
-if (!$query) {
-    die("Query gagal: " . mysqli_error($koneksi));
-}
-
-$data = mysqli_fetch_assoc($query);
+// Ambil data melalui Controller
+$data = $controller->getPenggunaById($id);
 
 if (!$data) {
     die("Data pengguna tidak ditemukan.");
-}
-
-
-// Jika tombol Simpan ditekan
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    $nama_lengkap = $_POST['nama_lengkap'];
-    $username     = $_POST['username'];
-    $password     = $_POST['password'];
-    $role         = $_POST['role'];
-
-    $update = mysqli_query(
-        $koneksi,
-        "UPDATE Tabel_user SET
-            Nama_lengkap='$nama_lengkap',
-            Username='$username',
-            Password='$password',
-            Role='$role'
-        WHERE Id_user='$id'"
-    );
-
-    if ($update) {
-
-        header("Location: Pengguna.php");
-        exit;
-
-    } else {
-
-        die(
-            "Gagal mengubah data: "
-            . mysqli_error($koneksi)
-        );
-
-    }
 }
 
 ?>
@@ -87,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <title>Edit Pengguna</title>
 
-    <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=101">
+    <link rel="stylesheet" href="../Assets/Css/Tambah.css?v=5">
 
 </head>
 
@@ -99,7 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <h2>Edit Data Pengguna</h2>
 
-        <form method="POST">
+        <form action="../Controllers/Edit_PenggunaController.php" method="POST">
+    <input type="hidden" name="id" value="<?php echo (int) $data['Id_user']; ?>">
 
             <label>Nama Lengkap</label>
 
@@ -134,38 +91,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label>Role</label>
 
             <select name="role" required>
+           <option value="">-- Pilih Role --</option>
 
-                <option value="">-- Pilih Role --</option>
+            <option value="admin"
+              <?php if (strtolower($data['Role']) == 'admin') echo 'selected'; ?>>
+                 Admin
+               </option>
 
-                <option value="Admin"
-                    <?php
-                    if (strtolower($data['Role']) == 'admin') {
-                        echo 'selected';
-                    }
-                    ?>>
-                    Admin
-                </option>
+              <option value="petugas"
+             <?php if (strtolower($data['Role']) == 'petugas') echo 'selected'; ?>>
+              Petugas
+              </option>
 
-                <option value="Petugas"
-                    <?php
-                    if (strtolower($data['Role']) == 'petugas') {
-                        echo 'selected';
-                    }
-                    ?>>
-                    Petugas
-                </option>
-
-                <option value="Owner"
-                    <?php
-                    if (strtolower($data['Role']) == 'owner') {
-                        echo 'selected';
-                    }
-                    ?>>
-                    Owner
-                </option>
-
-            </select>
-
+              <option value="owner"
+             <?php if (strtolower($data['Role']) == 'owner') echo 'selected'; ?>>
+               Owner
+              </option>
+               </select>
 
             <div class="form-buttons">
 

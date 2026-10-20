@@ -741,3 +741,26 @@ td:first-child {
         width: 100%;
     }
 }
+
+
+/* Dropdown Area Parkir agar sama dengan input tanggal */
+.filter-group select {
+    width: 100%;
+    min-height: 40px;
+    padding: 10px 14px;
+    border: 1px solid #d8e8ec;
+    border-radius: 16px;
+    background-color: #f9fcfd;
+    color: #455a64;
+    font-size: 15px;
+    font-family: inherit;
+    box-sizing: border-box;
+    outline: none;
+    appearance: auto;
+}
+
+/* Efek saat dropdown dipilih */
+.filter-group select:focus {
+    border-color: #29a0c1;
+    box-shadow: 0 0 0 3px rgba(41, 160, 193, 0.12);
+}
